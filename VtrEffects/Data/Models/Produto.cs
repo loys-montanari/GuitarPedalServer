@@ -1,4 +1,4 @@
-﻿namespace VTREffects.Dominio.Models
+﻿namespace VtrEffects.Data.Models
 {
     public class Produto
     {

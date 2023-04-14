@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VTREffects.Dominio.Models
+namespace VtrEffects.Data.Models
 {
     [Table("Garantia")]
     public class Garantia

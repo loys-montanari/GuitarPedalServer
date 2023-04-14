@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VTREffects.Dominio.Models
+namespace VtrEffects.Data.Models
 {
 
     [Table("Contato")]
@@ -12,14 +12,15 @@ namespace VTREffects.Dominio.Models
         private string TipoContato { get; set; }
         private string LinkContato { get; set; }
 
-        public Contato(int id, string tipo, string link) {
-        
-        
-                Id = id;
-            TipoContato = tipo; 
+        public Contato(int id, string tipo, string link)
+        {
+
+
+            Id = id;
+            TipoContato = tipo;
             LinkContato = link;
-        
-        
+
+
         }
     }
 }
