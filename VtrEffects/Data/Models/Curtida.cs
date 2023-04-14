@@ -11,7 +11,7 @@ namespace VtrEffects.Models
         [Column("Tipo")]
         public int Tipo { get; set; }
 
-        [Column("IdPostagem")]
+        [Column("IdUsuario")]
         public int IdUsuario { get; set; }
         public virtual Usuario Usuario { get; set; }
 

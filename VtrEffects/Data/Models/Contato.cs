@@ -8,19 +8,9 @@ namespace VtrEffects.Data.Models
     public class Contato
     {
         [Key]
-        private int Id { get; set; }
-        private string TipoContato { get; set; }
-        private string LinkContato { get; set; }
+        public int Id { get; set; }
+        public string TipoContato { get; set; }
+        public string LinkContato { get; set; }
 
-        public Contato(int id, string tipo, string link)
-        {
-
-
-            Id = id;
-            TipoContato = tipo;
-            LinkContato = link;
-
-
-        }
     }
 }

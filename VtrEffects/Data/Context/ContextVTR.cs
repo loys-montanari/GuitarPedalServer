@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VtrEffects.Data.Models;
 using VtrEffects.Models;
-using MySql.EntityFrameworkCore.Extensions;
+
 
 namespace VtrEffects.Data.Context
 {
@@ -25,7 +25,7 @@ namespace VtrEffects.Data.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
-                optionsBuilder.UseMySQL("server=localhost;database=vtreffects;user=user;password=password");
+                optionsBuilder.UseSqlServer("server=localhost;database=vtreffects;Integrated Security=true;TrustServerCertificate=True;");
             }
 
             protected override void OnModelCreating(ModelBuilder modelBuilder)

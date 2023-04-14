@@ -8,7 +8,7 @@ namespace VtrEffects.Models
         public string Texto { get; set; }
         public DateTime DataCriacao { get; set; }
         public DateTime DataExclusao { get; set; }
-        [Column("IdPostagem")]
+        [Column("IdUsuario")]
         public int IdUsuario { get; set; }
         public virtual Usuario Usuario { get; set; }
 
