@@ -15,7 +15,7 @@ namespace VtrEffectsDados.Data.Repositorio
         private readonly ContextVTR context;
         public UsuarioRepository(ContextVTR contextoBI) : base(contextoBI)
         {
-
+            this.context = contextoBI;
         }
 
    
