@@ -42,7 +42,7 @@ namespace VtrEffects.Controllers
         {
             await usuarioRep.SaveAsync(user);
 
-            return Ok(usuarioRep.AllAsync());
+            return Ok(usuarioRep.GetAll());
         }
 
 
@@ -66,7 +66,7 @@ namespace VtrEffects.Controllers
                 return BadRequest("Usuário não encontrada.");
 
             await usuarioRep.DeleteAsync(user);
-            return Ok(usuarioRep.AllAsync());
+            return Ok(usuarioRep.GetAll());
         }
 
 

@@ -2,44 +2,44 @@
 using VtrEffects.Dominio.Modelo;
 using VtrEffectsDados.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using VtrEffectsDados.Data.Repositorio;
 
-namespace Reclamacao.Dados.Data.Repositorio
+namespace VtrEffectsDados.Data.Repositorio
 {
 
   
 
-    public class UsuarioRepository : IUsuarioRepository
+    public class UsuarioRepository : GenericRepository<Usuario>, IUsuarioRepository
     {
-        private readonly IGenericRepository<Usuario> _repositoryBase;
+
         private readonly ContextVTR context;
-
-        public UsuarioRepository(IGenericRepository<Usuario> repositoryBase, ContextVTR context)
+        public UsuarioRepository(ContextVTR contextoBI) : base(contextoBI)
         {
-            _repositoryBase = repositoryBase;
-            this.context = context;
+
         }
 
-        public async Task<IEnumerable<Usuario>> AllAsync()
-        {
-            var lista = await context.Usuario.ToListAsync();
-            return lista;
-        }
-
-        public async Task SaveAsync(Usuario usuario)
-        {
-            await _repositoryBase.SaveAsync(usuario);
-        }
+   
 
         public async Task<bool> UsuarioExiste(Usuario usuario)
         {
             var usuarioDb=     context.Usuario.Where(x => x.Nome.Equals(usuario.Nome) && x.Email.Equals(usuario.Email));
             return usuarioDb.Any();
         }
+
+
+        public async Task<bool> UsuarioExisteByEmail(string email)
+        {
+            var usuarioDb = context.Usuario.Where(x => x.Email.Equals(email));
+            return usuarioDb.Any();
+        }
+
+        public async Task<Usuario> GetByEmail(string email)
+        {
+            var usuarioDb = context.Usuario.Where(x => x.Email.Equals(email)).FirstOrDefault();
+            return usuarioDb;
+        }
+
+
     }
 
 }
