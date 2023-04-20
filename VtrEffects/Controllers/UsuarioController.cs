@@ -1,54 +1,75 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VtrEffectsDados.Data.Repositorio;
+using VtrEffects.Dominio.Interfaces;
 using VtrEffects.Dominio.Modelo;
-
+using VtrEffectsDados.Data.Context;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace VtrEffects.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class UsuarioController : Controller
     {
 
 
 
+        private IUsuarioRepository usuarioRep;
 
-        [HttpGet]
-        public IEnumerable<string> Get()
+
+        public UsuarioController(IUsuarioRepository userrepository)
         {
-            return new string[] { "value1", "value2" };
+            usuarioRep = userrepository;
+        }
+        public IActionResult Index()
+        {
+            return View();
         }
 
-        // GET api/<UsuarioController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+
+        [HttpGet("{email}")]
+        public async Task<ActionResult<Usuario>> GetbyEmail(string email)
         {
-            return "value";
+            var user = usuarioRep.GetByEmail(email);
+            if (user == null)
+                return BadRequest("Usuario não encontrada.");
+            return Ok(user);
         }
 
-        // POST api/<UsuarioController>
+
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<List<Usuario>>> AddUsuario(Usuario user)
         {
+            await usuarioRep.SaveAsync(user);
+
+            return Ok(usuarioRep.AllAsync());
         }
 
-        // PUT api/<UsuarioController>/5
-        [HttpPut("{id}")]
-        public void Put(Usuario usuario)
+
+        [HttpPut]
+        public async Task<ActionResult<List<Usuario>>> UpdateUser(Usuario user)
         {
-            if (ModelState.IsValid)
-            {
+            var usuario = user;
+            if (usuario == null)
+                return BadRequest("Usuario não encontrada.");
 
+            await usuarioRep.UpdateAsync(user);
 
-            }
-
-
+            return Ok(usuarioRep.GetByEmail(usuario.Email));
         }
 
-        // DELETE api/<UsuarioController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult<Usuario>> Delete(int id)
         {
+            var user = usuarioRep.GetById(id);
+            if (user == null)
+                return BadRequest("Usuário não encontrada.");
+
+            await usuarioRep.DeleteAsync(user);
+            return Ok(usuarioRep.AllAsync());
         }
+
+
+
     }
 }
