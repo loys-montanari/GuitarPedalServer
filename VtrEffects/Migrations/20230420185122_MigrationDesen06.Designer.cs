@@ -12,8 +12,8 @@ using VtrEffects.Data.Context;
 namespace VtrEffects.Migrations
 {
     [DbContext(typeof(ContextVTR))]
-    [Migration("20230414115810_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230420185122_MigrationDesen06")]
+    partial class MigrationDesen06
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
