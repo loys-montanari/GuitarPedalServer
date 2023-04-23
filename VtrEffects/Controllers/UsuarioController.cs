@@ -40,6 +40,10 @@ namespace VtrEffects.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Usuario>>> AddUsuario(Usuario user)
         {
+            var usuario = usuarioRep.GetByEmail(user.Email);
+            if(usuario != null)
+                return Conflict("E-mail já cadastrado.");
+
             await usuarioRep.SaveAsync(user);
 
             return Ok(usuarioRep.GetAll());
