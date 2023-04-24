@@ -40,6 +40,13 @@ namespace VtrEffectsDados.Data.Repositorio
         }
 
 
+        public async Task<Usuario> ValidarUsuario(string email, string senha)
+        {
+            var usuarioDb = context.Usuario.Where(x => x.Email == email && x.Senha == senha).FirstOrDefault();
+            return usuarioDb;
+        }
+
+
     }
 
 }

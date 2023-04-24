@@ -3,6 +3,7 @@ using VtrEffectsDados.Data.Repositorio;
 using VtrEffects.Dominio.Interfaces;
 using VtrEffects.Dominio.Modelo;
 using VtrEffectsDados.Data.Context;
+using VtrEffects.Helpers;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace VtrEffects.Controllers
@@ -29,7 +30,7 @@ namespace VtrEffects.Controllers
         public async Task<ActionResult<Usuario>> GetbyEmail(string email)
         {
             var user = usuarioRep.GetByEmail(email);
-            if (user == null)
+            if (user.Result == null)
                 return BadRequest("Usuario não encontrada.");
             return Ok(user);
         }
@@ -42,6 +43,7 @@ namespace VtrEffects.Controllers
             if(usuario.Result != null)
                 return Conflict("E-mail já cadastrado.");
 
+            user.Senha = CriptoHelper.HashMD5(user.Senha);
             await usuarioRep.SaveAsync(user);
 
             return Ok(usuarioRep.GetAll());
@@ -71,7 +73,22 @@ namespace VtrEffects.Controllers
             return Ok(usuarioRep.GetAll());
         }
 
+        public async Task<ActionResult> Login(string email, string senha)
+        {
+           
+            senha = CriptoHelper.HashMD5(senha);
 
+            var ret = usuarioRep.ValidarUsuario(email, senha);
+            if(ret.Result == null)
+            {
+                return BadRequest("Usuário não encontrada.");
+            }
+            else
+            {
+                return Ok(usuarioRep.GetByEmail(email));
+            }
+
+        }
 
     }
 }

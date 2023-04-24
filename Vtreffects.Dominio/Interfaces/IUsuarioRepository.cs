@@ -14,9 +14,10 @@ namespace VtrEffects.Dominio.Interfaces
         Task<bool> UsuarioExisteByEmail(string email);
         Task<bool> UsuarioExiste(Usuario usuario);
 
- 
+        Task<Usuario> ValidarUsuario(string email, string senha);
 
-   
+
+
 
     }
 }
