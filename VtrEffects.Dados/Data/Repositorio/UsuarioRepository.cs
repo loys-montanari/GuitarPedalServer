@@ -35,7 +35,7 @@ namespace VtrEffectsDados.Data.Repositorio
 
         public async Task<Usuario> GetByEmail(string email)
         {
-            var usuarioDb = context.Usuario.Where(x => x.Email.Equals(email)).FirstOrDefault();
+            var usuarioDb = context.Usuario.Where(x => x.Email == email).FirstOrDefault();
             return usuarioDb;
         }
 
