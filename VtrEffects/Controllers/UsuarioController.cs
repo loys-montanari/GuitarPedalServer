@@ -12,8 +12,6 @@ namespace VtrEffects.Controllers
     public class UsuarioController : Controller
     {
 
-
-
         private IUsuarioRepository usuarioRep;
 
 
