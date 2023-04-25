@@ -73,22 +73,7 @@ namespace VtrEffects.Controllers
             return Ok(usuarioRep.GetAll());
         }
 
-        public async Task<ActionResult> Login(string email, string senha)
-        {
-           
-            senha = CriptoHelper.HashMD5(senha);
 
-            var ret = usuarioRep.ValidarUsuario(email, senha);
-            if(ret.Result == null)
-            {
-                return BadRequest("Usuário não encontrada.");
-            }
-            else
-            {
-                return Ok(usuarioRep.GetByEmail(email));
-            }
-
-        }
 
     }
 }

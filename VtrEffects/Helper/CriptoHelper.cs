@@ -20,7 +20,6 @@ namespace VtrEffects.Helpers
             {
                 ret += hash[i].ToString("x2");
             }
-
             return ret;
         }
     }
