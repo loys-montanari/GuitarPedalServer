@@ -2,16 +2,16 @@
 {
     public class Produto
     {
-        public int Id { get; set; }
-        public string Nome { get; set; }
+        public int id { get; set; }
+        public string nome { get; set; }
 
-        public string Descricao { get; set; }
+        public string descricao { get; set; }
 
-        public string LinkManual { get; set; }
+        public string linkManual { get; set; }
 
-        public string LinkVideo { get; set; }
+        public string linkVideo { get; set; }
 
-        public string VersaoAtual { get; set; }
+        public string versaoAtual { get; set; }
 
     }
 }

@@ -4,17 +4,17 @@ namespace VtrEffects.Dominio.Modelo
 {
     public class Comentario
     {
-        public int Id { get; set; }
-        public string Texto { get; set; }
-        public DateTime DataCriacao { get; set; }
-        public DateTime DataExclusao { get; set; }
+        public int id { get; set; }
+        public string texto { get; set; }
+        public DateTime dataCriacao { get; set; }
+        public DateTime dataExclusao { get; set; }
         [Column("IdUsuario")]
-        public int IdUsuario { get; set; }
-        public virtual Usuario Usuario { get; set; }
+        public int idUsuario { get; set; }
+        public virtual Usuario usuario { get; set; }
 
         [Column("IdPostagem")]
-        public int IdPostagem { get; set; }
-        public virtual Postagem Postagem { get; set; }
+        public int idPostagem { get; set; }
+        public virtual Postagem postagem { get; set; }
 
 
     }

@@ -7,10 +7,10 @@ namespace VtrEffects.Dominio.Modelo
     public class Garantia
     {
         [Key]
-        public int Id { get; set; }
-        public string Descricao { get; set; }
-        public DateTime DataCriacao { get; set; }
-        public DateTime DataFim { get; set; }
-        public int ProdutoClienteID { get; set; }
+        public int id { get; set; }
+        public string descricao { get; set; }
+        public DateTime dataCriacao { get; set; }
+        public DateTime dataFim { get; set; }
+        public int produtoClienteId { get; set; }
     }
 }

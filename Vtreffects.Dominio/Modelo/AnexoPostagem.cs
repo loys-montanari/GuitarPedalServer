@@ -7,22 +7,22 @@ namespace VtrEffects.Dominio.Modelo
     {
         [Key]
         [Column("Id")]
-        public int Id { get; set; }
+        public int id { get; set; }
         [Column("IdPostagem")]
-        public int IdPostagem { get; set; }
-        public virtual Postagem Postagem { get; set; }
+        public int idPostagem { get; set; }
+        public virtual Postagem postagem { get; set; }
 
         [Column("NomeAnexo")]
-        public string NomeAnexo { get; set; }
+        public string nomeAnexo { get; set; }
 
         [Column("Extensao")]
-        public string Extensao { get; set; }
+        public string extensao { get; set; }
 
         [Column("Tamanho")]
-        public int Tamanho { get; set; }
+        public int tamanho { get; set; }
 
         [Column("Anexo")]
-        public byte[] Anexo { get; set; }
+        public byte[] anexo { get; set; }
 
     }
 }

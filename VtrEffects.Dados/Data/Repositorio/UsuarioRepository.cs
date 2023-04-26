@@ -22,20 +22,20 @@ namespace VtrEffectsDados.Data.Repositorio
 
         public async Task<bool> UsuarioExiste(Usuario usuario)
         {
-            var usuarioDb=     context.Usuario.Where(x => x.Nome.Equals(usuario.Nome) && x.Email.Equals(usuario.Email));
+            var usuarioDb=     context.Usuario.Where(x => x.nome.Equals(usuario.nome) && x.email.Equals(usuario.email));
             return usuarioDb.Any();
         }
 
 
         public async Task<bool> UsuarioExisteByEmail(string email)
         {
-            var usuarioDb = context.Usuario.Where(x => x.Email.Equals(email));
+            var usuarioDb = context.Usuario.Where(x => x.email.Equals(email));
             return usuarioDb.Any();
         }
 
         public async Task<Usuario> GetByEmail(string email)
         {
-            var usuarioDb = context.Usuario.Where(x => x.Email == email).FirstOrDefault();
+            var usuarioDb = context.Usuario.Where(x => x.email == email).FirstOrDefault();
             return usuarioDb;
         }
 
@@ -43,7 +43,7 @@ namespace VtrEffectsDados.Data.Repositorio
         public async Task<Usuario> ValidarUsuario(string email, string senha)
         {
 
-            var usuarioDb = context.Usuario.Where(x => x.Email == email && x.Senha == senha).FirstOrDefault();
+            var usuarioDb = context.Usuario.Where(x => x.email == email && x.senha == senha).FirstOrDefault();
             return usuarioDb;
         }
 

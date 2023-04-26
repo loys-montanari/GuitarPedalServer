@@ -12,12 +12,17 @@ namespace VtrEffects.Controllers
     [ApiController]
     public class UsuarioController : Controller
     {
-
+        private readonly HttpClient _httpClient;
         private IUsuarioRepository usuarioRep;
 
 
         public UsuarioController(IUsuarioRepository userrepository)
         {
+            var httpClientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            };
+            _httpClient = new HttpClient(httpClientHandler);
             usuarioRep = userrepository;
         }
         public IActionResult Index()
@@ -39,11 +44,11 @@ namespace VtrEffects.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Usuario>>> AddUsuario(Usuario user)
         {
-            var usuario = usuarioRep.GetByEmail(user.Email);
+            var usuario = usuarioRep.GetByEmail(user.email);
             if(usuario.Result != null)
                 return Conflict("E-mail já cadastrado.");
 
-            user.Senha = CriptoHelper.HashMD5(user.Senha);
+            user.senha = CriptoHelper.HashMD5(user.senha);
             await usuarioRep.SaveAsync(user);
 
             return Ok(usuarioRep.GetAll());
@@ -59,7 +64,7 @@ namespace VtrEffects.Controllers
 
             await usuarioRep.UpdateAsync(user);
 
-            return Ok(usuarioRep.GetByEmail(usuario.Email));
+            return Ok(usuarioRep.GetByEmail(usuario.email));
         }
 
         [HttpDelete("{id}")]

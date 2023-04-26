@@ -8,9 +8,9 @@ namespace VtrEffects.Dominio.Modelo
     public class Contato
     {
         [Key]
-        public int Id { get; set; }
-        public string TipoContato { get; set; }
-        public string LinkContato { get; set; }
+        public int id { get; set; }
+        public string tipoContato { get; set; }
+        public string linkContato { get; set; }
 
     }
 }

@@ -2,8 +2,8 @@
 {
     public class Notificacao
     {
-        public int Id { get; set; }
-        public string Texto { get; set; }
-        public DateTime DataPublicacao { get; set; }
+        public int id { get; set; }
+        public string texto { get; set; }
+        public DateTime dataPublicacao { get; set; }
     }
 }

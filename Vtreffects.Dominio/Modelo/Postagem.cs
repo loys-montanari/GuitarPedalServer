@@ -2,13 +2,13 @@
 {
     public class Postagem
     {
-        public int Id { get; set; }
-        public string Assunto { get; set; }
-        public string Texo { get; set; }
-        public DateTime DataCriacao { get; set; }
-        public DateTime DataExclusao { get; set; }
+        public int id { get; set; }
+        public string assunto { get; set; }
+        public string texto { get; set; }
+        public DateTime dataCriacao { get; set; }
+        public DateTime dataExclusao { get; set; }
 
-        public int IdUsuario { get; set; }
+        public int idUsuario { get; set; }
         public Usuario Usuario { get; set; }
 
     }

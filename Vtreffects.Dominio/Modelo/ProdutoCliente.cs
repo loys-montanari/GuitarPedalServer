@@ -6,17 +6,17 @@ namespace VtrEffects.Dominio.Modelo
     [Table("ProdutoCliente")]
     public class ProdutoCliente
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
 
-        public int IdProduto { get; set; }
+        public int idProduto { get; set; }
         public Produto produto { get; set; }
 
-        public int IdCliente { get; set; }
+        public int idCliente { get; set; }
         public Usuario usuario { get; set; }
 
-        public string Serial { get; set; }
-        public bool Ativo { get; set; }
-        public bool PrimeiroComprador { get; set; }
+        public string serial { get; set; }
+        public bool ativo { get; set; }
+        public bool primeiroComprador { get; set; }
     }
 }
