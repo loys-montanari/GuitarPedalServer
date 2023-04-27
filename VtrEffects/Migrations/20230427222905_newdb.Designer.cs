@@ -12,8 +12,8 @@ using VtrEffectsDados.Data.Context;
 namespace VtrEffects.Migrations
 {
     [DbContext(typeof(ContextVTR))]
-    [Migration("20230427000236_addFotoProduto")]
-    partial class addFotoProduto
+    [Migration("20230427222905_newdb")]
+    partial class newdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -307,27 +307,19 @@ namespace VtrEffects.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("descricao")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("idProduto")
+                        .HasColumnType("int");
 
-                    b.Property<string>("linkManual")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("produtoid")
+                        .HasColumnType("int");
 
-                    b.Property<string>("linkVideo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("versaoAtual")
+                    b.Property<string>("serial")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("produtoid");
 
                     b.ToTable("Produto");
                 });
@@ -379,17 +371,17 @@ namespace VtrEffects.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Bio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Foto")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InstrumentoPrincipal")
+                    b.Property<string>("bio")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("email")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("foto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("instrumentoPrincipal")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("nome")
@@ -482,6 +474,17 @@ namespace VtrEffects.Migrations
                         .IsRequired();
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("VtrEffects.Dominio.Modelo.Produto", b =>
+                {
+                    b.HasOne("VtrEffects.Dominio.Modelo.Produto", "produto")
+                        .WithMany()
+                        .HasForeignKey("produtoid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("produto");
                 });
 
             modelBuilder.Entity("VtrEffects.Dominio.Modelo.ProdutoCliente", b =>

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VtrEffects.Migrations
 {
     /// <inheritdoc />
-    public partial class NovoDB : Migration
+    public partial class newdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -75,33 +75,37 @@ namespace VtrEffects.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    linkManual = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    linkVideo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    versaoAtual = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    idProduto = table.Column<int>(type: "int", nullable: false),
+                    produtoid = table.Column<int>(type: "int", nullable: false),
+                    serial = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Produto", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Produto_Produto_produtoid",
+                        column: x => x.produtoid,
+                        principalTable: "Produto",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Usuario",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Senha = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InstrumentoPrincipal = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Foto = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    senha = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    foto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    instrumentoPrincipal = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Usuario", x => x.Id);
+                    table.PrimaryKey("PK_Usuario", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -111,7 +115,7 @@ namespace VtrEffects.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     idUsuario = table.Column<int>(type: "int", nullable: false),
-                    usuarioId = table.Column<int>(type: "int", nullable: false),
+                    usuarioid = table.Column<int>(type: "int", nullable: false),
                     idNotificacao = table.Column<int>(type: "int", nullable: false),
                     notificacaoid = table.Column<int>(type: "int", nullable: false),
                     msgLida = table.Column<bool>(type: "bit", nullable: false)
@@ -126,10 +130,10 @@ namespace VtrEffects.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_NotificacaoUsuario_Usuario_usuarioId",
-                        column: x => x.usuarioId,
+                        name: "FK_NotificacaoUsuario_Usuario_usuarioid",
+                        column: x => x.usuarioid,
                         principalTable: "Usuario",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -144,16 +148,16 @@ namespace VtrEffects.Migrations
                     dataCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     dataExclusao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     idUsuario = table.Column<int>(type: "int", nullable: false),
-                    UsuarioId = table.Column<int>(type: "int", nullable: false)
+                    Usuarioid = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Postagem", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Postagem_Usuario_UsuarioId",
-                        column: x => x.UsuarioId,
+                        name: "FK_Postagem_Usuario_Usuarioid",
+                        column: x => x.Usuarioid,
                         principalTable: "Usuario",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -166,7 +170,7 @@ namespace VtrEffects.Migrations
                     idProduto = table.Column<int>(type: "int", nullable: false),
                     produtoid = table.Column<int>(type: "int", nullable: false),
                     idCliente = table.Column<int>(type: "int", nullable: false),
-                    usuarioId = table.Column<int>(type: "int", nullable: false),
+                    usuarioid = table.Column<int>(type: "int", nullable: false),
                     serial = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ativo = table.Column<bool>(type: "bit", nullable: false),
                     primeiroComprador = table.Column<bool>(type: "bit", nullable: false)
@@ -181,10 +185,10 @@ namespace VtrEffects.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProdutoCliente_Usuario_usuarioId",
-                        column: x => x.usuarioId,
+                        name: "FK_ProdutoCliente_Usuario_usuarioid",
+                        column: x => x.usuarioid,
                         principalTable: "Usuario",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -222,7 +226,7 @@ namespace VtrEffects.Migrations
                     dataCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     dataExclusao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUsuario = table.Column<int>(type: "int", nullable: false),
-                    usuarioId = table.Column<int>(type: "int", nullable: false),
+                    usuarioid = table.Column<int>(type: "int", nullable: false),
                     IdPostagem = table.Column<int>(type: "int", nullable: false),
                     postagemid = table.Column<int>(type: "int", nullable: false)
                 },
@@ -236,10 +240,10 @@ namespace VtrEffects.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
-                        name: "FK_Comentario_Usuario_usuarioId",
-                        column: x => x.usuarioId,
+                        name: "FK_Comentario_Usuario_usuarioid",
+                        column: x => x.usuarioid,
                         principalTable: "Usuario",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.NoAction);
                 });
 
@@ -251,7 +255,7 @@ namespace VtrEffects.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Tipo = table.Column<int>(type: "int", nullable: false),
                     IdUsuario = table.Column<int>(type: "int", nullable: false),
-                    usuarioId = table.Column<int>(type: "int", nullable: false),
+                    usuarioid = table.Column<int>(type: "int", nullable: false),
                     IdPostagem = table.Column<int>(type: "int", nullable: false),
                     postagemid = table.Column<int>(type: "int", nullable: false)
                 },
@@ -265,10 +269,10 @@ namespace VtrEffects.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
-                        name: "FK_Curtida_Usuario_usuarioId",
-                        column: x => x.usuarioId,
+                        name: "FK_Curtida_Usuario_usuarioid",
+                        column: x => x.usuarioid,
                         principalTable: "Usuario",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.NoAction);
                 });
 
@@ -283,9 +287,9 @@ namespace VtrEffects.Migrations
                 column: "postagemid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comentario_usuarioId",
+                name: "IX_Comentario_usuarioid",
                 table: "Comentario",
-                column: "usuarioId");
+                column: "usuarioid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Curtida_postagemid",
@@ -293,9 +297,9 @@ namespace VtrEffects.Migrations
                 column: "postagemid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Curtida_usuarioId",
+                name: "IX_Curtida_usuarioid",
                 table: "Curtida",
-                column: "usuarioId");
+                column: "usuarioid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_NotificacaoUsuario_notificacaoid",
@@ -303,14 +307,19 @@ namespace VtrEffects.Migrations
                 column: "notificacaoid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_NotificacaoUsuario_usuarioId",
+                name: "IX_NotificacaoUsuario_usuarioid",
                 table: "NotificacaoUsuario",
-                column: "usuarioId");
+                column: "usuarioid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Postagem_UsuarioId",
+                name: "IX_Postagem_Usuarioid",
                 table: "Postagem",
-                column: "UsuarioId");
+                column: "Usuarioid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Produto_produtoid",
+                table: "Produto",
+                column: "produtoid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProdutoCliente_produtoid",
@@ -318,9 +327,9 @@ namespace VtrEffects.Migrations
                 column: "produtoid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProdutoCliente_usuarioId",
+                name: "IX_ProdutoCliente_usuarioid",
                 table: "ProdutoCliente",
-                column: "usuarioId");
+                column: "usuarioid");
         }
 
         /// <inheritdoc />
