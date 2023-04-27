@@ -17,9 +17,13 @@ namespace VtrEffectsDados.Data.Context
         public DbSet<Notificacao> Notificacao { get; set; }
         public DbSet<NotificacaoUsuario> NotificacaoUsuario { get; set; }
         public DbSet<Postagem> Postagem { get; set; }
+        public DbSet<TipoProduto> TipoProduto { get; set; }
         public DbSet<Produto> Produto { get; set; }
         public DbSet<ProdutoCliente> ProdutoCliente { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+
+
+        public DbSet<Seguidores> Seguidores { get; set; }
 
 
         public ContextVTR(DbContextOptions<ContextVTR> options) : base(options)

@@ -91,6 +91,24 @@ namespace VtrEffects.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TipoProduto",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    linkManual = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    linkVideo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    versaoAtual = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    fotoProduto = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TipoProduto", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Usuario",
                 columns: table => new
                 {
@@ -190,6 +208,34 @@ namespace VtrEffects.Migrations
                         principalTable: "Usuario",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Seguidores",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    idSeguidor = table.Column<int>(type: "int", nullable: false),
+                    seguidorid = table.Column<int>(type: "int", nullable: false),
+                    idUsuario = table.Column<int>(type: "int", nullable: false),
+                    usuarioid = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Seguidores", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Seguidores_Usuario_seguidorid",
+                        column: x => x.seguidorid,
+                        principalTable: "Usuario",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_Seguidores_Usuario_usuarioid",
+                        column: x => x.usuarioid,
+                        principalTable: "Usuario",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -330,6 +376,16 @@ namespace VtrEffects.Migrations
                 name: "IX_ProdutoCliente_usuarioid",
                 table: "ProdutoCliente",
                 column: "usuarioid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Seguidores_seguidorid",
+                table: "Seguidores",
+                column: "seguidorid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Seguidores_usuarioid",
+                table: "Seguidores",
+                column: "usuarioid");
         }
 
         /// <inheritdoc />
@@ -358,6 +414,12 @@ namespace VtrEffects.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProdutoCliente");
+
+            migrationBuilder.DropTable(
+                name: "Seguidores");
+
+            migrationBuilder.DropTable(
+                name: "TipoProduto");
 
             migrationBuilder.DropTable(
                 name: "Postagem");

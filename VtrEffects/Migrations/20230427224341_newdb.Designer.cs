@@ -12,7 +12,7 @@ using VtrEffectsDados.Data.Context;
 namespace VtrEffects.Migrations
 {
     [DbContext(typeof(ContextVTR))]
-    [Migration("20230427222905_newdb")]
+    [Migration("20230427224341_newdb")]
     partial class newdb
     {
         /// <inheritdoc />
@@ -363,6 +363,72 @@ namespace VtrEffects.Migrations
                     b.ToTable("ProdutoCliente");
                 });
 
+            modelBuilder.Entity("VtrEffects.Dominio.Modelo.Seguidores", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("idSeguidor")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idUsuario")
+                        .HasColumnType("int");
+
+                    b.Property<int>("seguidorid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("usuarioid")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("seguidorid");
+
+                    b.HasIndex("usuarioid");
+
+                    b.ToTable("Seguidores");
+                });
+
+            modelBuilder.Entity("VtrEffects.Dominio.Modelo.TipoProduto", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("descricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("fotoProduto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("linkManual")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("linkVideo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("versaoAtual")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("TipoProduto");
+                });
+
             modelBuilder.Entity("VtrEffects.Dominio.Modelo.Usuario", b =>
                 {
                     b.Property<int>("id")
@@ -502,6 +568,25 @@ namespace VtrEffects.Migrations
                         .IsRequired();
 
                     b.Navigation("produto");
+
+                    b.Navigation("usuario");
+                });
+
+            modelBuilder.Entity("VtrEffects.Dominio.Modelo.Seguidores", b =>
+                {
+                    b.HasOne("VtrEffects.Dominio.Modelo.Usuario", "seguidor")
+                        .WithMany()
+                        .HasForeignKey("seguidorid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VtrEffects.Dominio.Modelo.Usuario", "usuario")
+                        .WithMany()
+                        .HasForeignKey("usuarioid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("seguidor");
 
                     b.Navigation("usuario");
                 });
