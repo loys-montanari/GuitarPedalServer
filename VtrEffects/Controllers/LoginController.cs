@@ -39,7 +39,6 @@ namespace VtrEffects.Controllers
             {
                 return Ok(usuarioRep.GetByEmail(logininfo.Email));
             }
-
         }
     }
 }
