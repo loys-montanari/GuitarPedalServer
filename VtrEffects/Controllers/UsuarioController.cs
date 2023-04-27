@@ -51,7 +51,7 @@ namespace VtrEffects.Controllers
             user.senha = CriptoHelper.HashMD5(user.senha);
             await usuarioRep.SaveAsync(user);
 
-            return Ok(usuarioRep.GetAll());
+            return Ok(200);
         }
 
 
