@@ -13,5 +13,7 @@
 
         public string versaoAtual { get; set; }
 
+        public string fotoProduto { get; set; }
+
     }
 }
