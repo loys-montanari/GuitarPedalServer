@@ -11,7 +11,7 @@ namespace VtrEffects.Dominio.Modelo
         public int id { get; set; }
 
         
-        public int idTipoProduto { get; set; }
+        public int tipoProdutoId { get; set; }
         public virtual TipoProduto tipoProduto { get; set; }
 
         public string serial { get; set; }
