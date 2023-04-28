@@ -59,21 +59,21 @@ namespace VtrEffects.Controllers
             if (produtoCliente is null)
                 return BadRequest("Dados para cadastro não encontrados.");
 
-            var cliente = usuarioRepository.GetById(produtoCliente.idCliente);
+            var cliente = usuarioRepository.GetById(produtoCliente.clienteid);
             if (cliente is null)
                 return BadRequest("Código de usuário inválido.");
 
-            var produto = produtoRepository.GetById(produtoCliente.idProduto);
+            var produto = produtoRepository.GetById(produtoCliente.produtoid);
             if (produto is null)
                 return BadRequest("Código do produto inválido.");
 
-            var verificaCadastro = produtoClienteRepository.VerificarCadastro(produtoCliente.idProduto);
+            var verificaCadastro = produtoClienteRepository.VerificarCadastro(produtoCliente.produtoid);
 
             if (verificaCadastro.Result == false)
                 return BadRequest("Produto já cadastrado.");
 
             await produtoClienteRepository.SaveAsync(produtoCliente);
-            return new CreatedAtRouteResult("GetProdutoByÌd", new { id = produtoCliente.idProduto }, produtoCliente);
+            return new CreatedAtRouteResult("GetProdutoByÌd", new { id = produtoCliente.produtoid }, produtoCliente);
         }
     }
 }

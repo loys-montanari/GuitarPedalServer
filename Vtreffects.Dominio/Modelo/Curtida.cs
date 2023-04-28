@@ -11,12 +11,12 @@ namespace VtrEffects.Dominio.Modelo
         [Column("Tipo")]
         public int tipo { get; set; }
 
-        [Column("IdUsuario")]
-        public int idUsuario { get; set; }
+        [Column("usuarioid")]
+        public int usuarioid { get; set; }
         public virtual Usuario usuario { get; set; }
 
-        [Column("IdPostagem")]
-        public int idPostagem { get; set; }
+        [Column("postagemid")]
+        public int postagemid { get; set; }
         public virtual Postagem postagem { get; set; }
     }
 }

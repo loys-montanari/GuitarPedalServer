@@ -12,5 +12,6 @@ namespace VtrEffects.Dominio.Modelo
         public DateTime dataCriacao { get; set; }
         public DateTime dataFim { get; set; }
         public int produtoClienteId { get; set; }
+        public ProdutoCliente produtoCliente { get; set; }
     }
 }

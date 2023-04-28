@@ -9,10 +9,10 @@ namespace VtrEffects.Dominio.Modelo
         public int id { get; set; }
 
 
-        public int idProduto { get; set; }
+        public int produtoid { get; set; }
         public Produto produto { get; set; }
 
-        public int idCliente { get; set; }
+        public int clienteid { get; set; }
         public Usuario usuario { get; set; }
 
         public string serial { get; set; }

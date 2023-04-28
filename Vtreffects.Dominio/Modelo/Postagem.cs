@@ -8,8 +8,8 @@
         public DateTime dataCriacao { get; set; }
         public DateTime dataExclusao { get; set; }
 
-        public int idUsuario { get; set; }
-        public Usuario Usuario { get; set; }
+        public int usuarioid { get; set; }
+        public Usuario usuario { get; set; }
 
     }
 }

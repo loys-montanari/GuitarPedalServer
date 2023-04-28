@@ -8,8 +8,8 @@ namespace VtrEffects.Dominio.Modelo
         [Key]
         [Column("Id")]
         public int id { get; set; }
-        [Column("IdPostagem")]
-        public int idPostagem { get; set; }
+        [Column("postagemid")]
+        public int postagemid { get; set; }
         public virtual Postagem postagem { get; set; }
 
         [Column("NomeAnexo")]

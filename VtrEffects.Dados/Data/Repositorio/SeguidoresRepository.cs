@@ -14,12 +14,12 @@ namespace VtrEffectsDados.Data.Repositorio
 
         public async Task<List<Seguidores>> GetAllByUsuarioAsync(int id)
         {
-            return await entity_.Include(s => s.seguidor).Where(x => x.idUsuario == id).ToListAsync();
+            return await entity_.Include(s => s.seguidor).Where(x => x.usuarioid == id).ToListAsync();
         }
 
         public async Task<List<Seguidores>> GetAllSeguidosAsync(int id)
         {
-            return await entity_.Include( s=> s.usuario).Where(x => x.idSeguidor == id).ToListAsync();
+            return await entity_.Include( s=> s.usuario).Where(x => x.seguidorid == id).ToListAsync();
         }
     }
 }

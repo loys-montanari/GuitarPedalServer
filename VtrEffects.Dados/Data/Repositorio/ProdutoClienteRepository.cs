@@ -14,7 +14,7 @@ namespace VtrEffectsDados.Data.Repositorio
 
         public async Task<bool> VerificarCadastro(int produtoId)
         {
-            var produtoCliente = context.ProdutoCliente.Where(p => p.idProduto == produtoId && p.ativo == true).FirstOrDefault();
+            var produtoCliente = context.ProdutoCliente.Where(p => p.produtoid == produtoId && p.ativo == true).FirstOrDefault();
 
             //Produto apto para cadastro
             if (produtoCliente == null)
@@ -25,7 +25,7 @@ namespace VtrEffectsDados.Data.Repositorio
 
         public async Task<IList<ProdutoCliente>> GetAllByUsuario(int usuarioId)
         {
-            var produtoClienteList = context.ProdutoCliente.Where(p => p.idCliente == usuarioId && p.ativo == true).ToList();
+            var produtoClienteList = context.ProdutoCliente.Where(p => p.clienteid == usuarioId && p.ativo == true).ToList();
             return produtoClienteList;
         }
     }

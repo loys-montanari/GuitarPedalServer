@@ -26,10 +26,20 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ContextVTR>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IAnexoRepository, AnexoRepository>();
 builder.Services.AddScoped<IComentarioRepository, ComentarioRepository>();
+builder.Services.AddScoped<IContatoRepository, ContatoRepository>();
+builder.Services.AddScoped<ICurtidaRepository, CurtidaRepository>();
+builder.Services.AddScoped<IDuvidasRepository, DuvidasRepository>();
+builder.Services.AddScoped<IGarantiaRepository, GarantiaRepository>();
+builder.Services.AddScoped<INotificacaoRepository, NotificacaoRepository>();
+builder.Services.AddScoped<INotificacaoUsuarioRepository, NotificacaoUsuarioRepository>();
+builder.Services.AddScoped<IProdutoClienteRepository, ProdutoClienteRepository>();
+builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<ISeguidoresRepository, SeguidoresRepository>();
+builder.Services.AddScoped<ITipoProdutoRepository, TipoProdutoRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
 
 var app = builder.Build();
 
