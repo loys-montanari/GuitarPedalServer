@@ -1,4 +1,5 @@
-﻿using VtrEffects.Dominio.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using VtrEffects.Dominio.Interfaces;
 using VtrEffects.Dominio.Modelo;
 using VtrEffectsDados.Data.Context;
 
@@ -10,5 +11,12 @@ namespace VtrEffectsDados.Data.Repositorio
         {
 
         }
+
+
+        public async Task<List<Comentario>> getAllByPost(int id)
+        {
+            return await entity_.Include(s => s.usuario).Where(x => x.postagemid == id && x.dataExclusao == null).ToListAsync();
+        }
+
     }
 }

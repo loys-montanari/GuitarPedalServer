@@ -10,5 +10,18 @@ namespace VtrEffectsDados.Data.Repositorio
         {
 
         }
+
+
+        public async Task<Curtida> getByUsuario(int iduser)
+        {
+            var curtida = context.Curtida.Where(x => x.usuarioid == iduser).FirstOrDefault();
+            return curtida;
+        }
+
+        public async Task<List<Curtida>> getAllByPost(int idpost)
+        {
+            var curtida = context.Curtida.Where(x => x.postagemid == idpost).ToList();
+            return curtida;
+        }
     }
 }

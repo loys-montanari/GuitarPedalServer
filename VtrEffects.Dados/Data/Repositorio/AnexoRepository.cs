@@ -10,5 +10,12 @@ namespace VtrEffectsDados.Data.Repositorio
         {
 
         }
+
+
+        public async Task<List<AnexoPostagem>> getAllByPost(int idpost)
+        {
+            var anexo = context.AnexoPostagem.Where(x => x.postagemid == idpost).ToList();
+            return anexo;
+        }
     }
 }

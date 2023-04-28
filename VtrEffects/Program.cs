@@ -34,6 +34,7 @@ builder.Services.AddScoped<IDuvidasRepository, DuvidasRepository>();
 builder.Services.AddScoped<IGarantiaRepository, GarantiaRepository>();
 builder.Services.AddScoped<INotificacaoRepository, NotificacaoRepository>();
 builder.Services.AddScoped<INotificacaoUsuarioRepository, NotificacaoUsuarioRepository>();
+builder.Services.AddScoped<IPostagemRepository, PostagemRepository>();
 builder.Services.AddScoped<IProdutoClienteRepository, ProdutoClienteRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<ISeguidoresRepository, SeguidoresRepository>();

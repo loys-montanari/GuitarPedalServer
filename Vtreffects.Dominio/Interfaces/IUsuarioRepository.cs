@@ -17,7 +17,5 @@ namespace VtrEffects.Dominio.Interfaces
         Task<Usuario> ValidarUsuario(string email, string senha);
 
 
-
-
     }
 }

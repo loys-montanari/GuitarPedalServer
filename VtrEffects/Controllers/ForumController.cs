@@ -25,7 +25,7 @@ namespace VtrEffects.Controllers
             this.postagemRep = postagemRep;
             this.curtidaRep = curtidaRep;
             this.comentarioRep = comentarioRep;
-            this.anexoRep = anexoRep;   
+            this.anexoRep = anexoRep;
         }
 
 
@@ -40,31 +40,31 @@ namespace VtrEffects.Controllers
             if (post == null)
                 return BadRequest("Houve um problema ao salvar seu post.");
 
-            
+
             retorno.post = post;
             if (postagem.anexosPostagem != null)
             {
                 retorno.anexosPostagem = new List<AnexoPostagem>();
 
-                foreach(AnexoPostagem a in postagem.anexosPostagem)
+                foreach (AnexoPostagem a in postagem.anexosPostagem)
                 {
-                   
+
 
                     retorno.anexosPostagem.Add(await anexoRep.SaveAsync(a));
 
 
                 }
             }
-            
+
             return Ok(retorno);
 
         }
 
-        [HttpDelete()]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Postagem>> DeletePostagem(int id)
         {
-            var post =  postagemRep.GetById(id);
-            if (post == null) return BadRequest("Envie um id válido");
+            var post = postagemRep.GetById(id);
+            if (post == null) return BadRequest("Postagem não existente");
 
 
             post.dataExclusao = DateTime.Now;
@@ -74,6 +74,46 @@ namespace VtrEffects.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<ForumDTO>>> getAllPostagens()
+        {
+
+            var list = new List<ForumDTO>();
+            var posts = await postagemRep.getAllNotDeleted();
+
+            foreach (Postagem p in posts) {
+
+                ForumDTO dto = new ForumDTO();
+                dto.post = p;
+                dto.comentarios = await comentarioRep.getAllByPost(p.id);
+                dto.curtidas = await curtidaRep.getAllByPost(p.id);
+                dto.anexosPostagem = await anexoRep.getAllByPost(p.id);
+
+
+                list.Add(dto);
+
+            }
+
+
+            return Ok(list);
+        }
+
+        [HttpGet("{idpost}")]
+        public async Task<ActionResult<ForumDTO>> getPost(int idpost)
+        {           
+            var post = postagemRep.GetById(idpost);
+            if (post == null) return BadRequest("Postagem não encontrada");
+
+            if(post.dataExclusao != null) return BadRequest("Postagem excluida");
+
+            ForumDTO dto = new ForumDTO();
+            dto.post = post;
+            dto.comentarios = await comentarioRep.getAllByPost(post.id);
+            dto.curtidas = await curtidaRep.getAllByPost(post.id);
+            dto.anexosPostagem = await anexoRep.getAllByPost(post.id);
+
+            return Ok(dto);
+        }
 
         [HttpPost(), Route("AddComentario")]
         public async Task<ActionResult<Postagem>> AddComentario(Comentario coment)
@@ -87,6 +127,37 @@ namespace VtrEffects.Controllers
 
         }
 
+        [HttpDelete("DeleteComentario/{id}"), Route("DeleteComentario")]
+        public async Task<ActionResult<Comentario>> DeleteComentario(int id)
+        {
+            var coment = comentarioRep.GetById(id);
+            if (coment == null) return BadRequest("Envie um id válido");
 
+
+            coment.dataExclusao = DateTime.Now;
+            await comentarioRep.UpdateAsync(coment);
+
+            return Ok();
+
+        }
+
+        [HttpPost(), Route("Curtida")]
+        public async Task<ActionResult<bool>> curtida(Curtida curtida)
+        {
+            var curt = curtidaRep.getByUsuario(curtida.usuarioid);
+            if (curt.Result == null)
+            {
+                await curtidaRep.SaveAsync(curtida);
+                return Ok(true);
+            }
+            else
+            {
+                await curtidaRep.DeleteAsync(curt.Result);
+                return Ok(false);
+            }
+
+        }
+
+    
     }
 }
