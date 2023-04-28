@@ -12,4 +12,6 @@ namespace VtrEffects.DTO
 
 
     }
+
+
 }
