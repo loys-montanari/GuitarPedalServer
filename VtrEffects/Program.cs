@@ -27,6 +27,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ContextVTR>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IAnexoRepository, AnexoRepository>();
+builder.Services.AddScoped<IComentarioRepository, ComentarioRepository>();
+builder.Services.AddScoped<ISeguidoresRepository, SeguidoresRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
