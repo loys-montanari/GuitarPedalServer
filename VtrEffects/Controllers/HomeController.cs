@@ -12,12 +12,14 @@ namespace VtrEffects.Controllers
         private IProdutoClienteRepository produtoClienteRepository;
         private IUsuarioRepository usuarioRepository;
         private IProdutoRepository produtoRepository;
+        private ITipoProdutoRepository tipoProdutoRepository;
 
-        public HomeController(IProdutoClienteRepository productoClienteRepository, IUsuarioRepository usuarioRepository, IProdutoRepository produtoRepository)
+        public HomeController(IProdutoClienteRepository productoClienteRepository, IUsuarioRepository usuarioRepository, IProdutoRepository produtoRepository, ITipoProdutoRepository tipoProdutoRepository)
         {
             this.produtoClienteRepository = productoClienteRepository;
             this.usuarioRepository = usuarioRepository;
             this.produtoRepository = produtoRepository;
+            this.tipoProdutoRepository = tipoProdutoRepository;
         }
 
         public IActionResult Index()
@@ -36,9 +38,9 @@ namespace VtrEffects.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IList<ProdutoCliente>>> GetAllProdutos()
+        public async Task<ActionResult<IList<TipoProduto>>> GetAllProdutos()
         {
-            var produtoList = produtoRepository.GetAllAsync();
+            var produtoList = tipoProdutoRepository.GetAllAsync();
             return Ok(produtoList);
         }
 
