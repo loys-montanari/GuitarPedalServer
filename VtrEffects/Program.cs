@@ -54,8 +54,18 @@ if (app.Environment.IsDevelopment())
 app.UseCors(MyAllowSpecificOrigins);
 app.UseHttpsRedirection();
 
+//app.UseRouting();
+
 app.UseAuthorization();
 
 app.MapControllers();
+
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllerRoute(
+//        name: "produtos",
+//        pattern: "api/home/produtos/{usuarioId}",
+//        defaults: new { controller = "Home", action = "GetAllProdutosByUsuario" });
+//});
 
 app.Run();

@@ -5,7 +5,7 @@ namespace VtrEffects.Dominio.Interfaces
 {
     public interface IProdutoClienteRepository : IGenericRepository<ProdutoCliente>
     {
-        Task<bool> VerificarCadastro(int produtoId);
+        Task<bool> VerificarCadastro(string serial);
         Task<IList<ProdutoCliente>> GetAllByUsuario(int usuarioId);
     }
 }

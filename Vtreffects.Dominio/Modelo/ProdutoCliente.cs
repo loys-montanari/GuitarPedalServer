@@ -12,10 +12,9 @@ namespace VtrEffects.Dominio.Modelo
         public int produtoid { get; set; }
         public Produto produto { get; set; }
 
-        public int clienteid { get; set; }
+        public int usuarioid { get; set; }
         public Usuario usuario { get; set; }
 
-        public string serial { get; set; }
         public bool ativo { get; set; }
         public bool primeiroComprador { get; set; }
     }
