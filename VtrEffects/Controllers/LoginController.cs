@@ -28,8 +28,6 @@ namespace VtrEffects.Controllers
             if(user.Result == null)
                 return BadRequest("Não existe nenhum cadastro para esse e-mail.");
 
-
-
             string senha = CriptoHelper.HashMD5(logininfo.senha); 
             var ret = usuarioRep.ValidarUsuario(logininfo.email,senha);
             if (ret.Result == null)
@@ -48,11 +46,6 @@ namespace VtrEffects.Controllers
 
                 return Ok(retorno);
             }
-
         }
-
-
-
-
     }
 }
