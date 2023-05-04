@@ -10,7 +10,7 @@ namespace VtrEffects.Dominio.Modelo
         public int id { get; set; }
         [Column("postagemid")]
         public int postagemid { get; set; }
-        public virtual Postagem postagem { get; set; }
+        public virtual Postagem? postagem { get; set; }
 
         [Column("NomeAnexo")]
         public string nomeAnexo { get; set; }
@@ -22,7 +22,7 @@ namespace VtrEffects.Dominio.Modelo
         public int tamanho { get; set; }
 
         [Column("Anexo")]
-        public byte[] anexo { get; set; }
+        public string anexo { get; set; }
 
     }
 }
