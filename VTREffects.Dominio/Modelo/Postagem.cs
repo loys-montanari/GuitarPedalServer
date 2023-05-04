@@ -12,8 +12,8 @@ namespace VtrEffects.Dominio.Modelo
 
         public int usuarioid { get; set; }
 
-        //[JsonIgnore]
-        //public virtual Usuario usuario { get; set; }
+        [JsonIgnore]
+        public virtual Usuario usuario { get; set; }
 
 
     }
