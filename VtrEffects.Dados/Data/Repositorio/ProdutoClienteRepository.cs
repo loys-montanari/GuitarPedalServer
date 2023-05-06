@@ -32,8 +32,8 @@ namespace VtrEffectsDados.Data.Repositorio
 
         public async Task<IList<ProdutoCliente>> GetAllByUsuario(int usuarioId)
         {
-            //var produtoClienteList = context.ProdutoCliente.Include(p => p.produto.id).Include(p => p.produto.tipoProduto.id).Where(p => p.usuarioid == usuarioId && p.ativo == true).ToList();
-            var produtoClienteList = context.ProdutoCliente.Where(p => p.usuarioid == usuarioId && p.ativo == true).ToList();
+            var produtoClienteList = context.ProdutoCliente.Include(p => p.produto).ThenInclude(prod => prod.tipoProduto).Where(p => p.usuarioid == usuarioId && p.ativo == true).ToList();
+            //var produtoClienteList = context.ProdutoCliente.Where(p => p.usuarioid == usuarioId && p.ativo == true).ToList();
             return produtoClienteList;
         }
     }
