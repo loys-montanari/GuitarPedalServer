@@ -167,6 +167,32 @@ namespace VtrEffects.Controllers
 
         }
 
-    
+        [HttpGet("user/{id}"), Route("user")]
+        public async Task<ActionResult<List<ForumDTO>>> getAllPostagensByUsuer(int id)
+        {
+
+            var list = new List<ForumDTO>();
+            var posts = await postagemRep.getAllNotDeletedByUser(id);
+
+            if (posts == null)
+                return Ok("Este usuário não tem nenhum post");
+
+            foreach (Postagem p in posts)
+            {
+
+                ForumDTO dto = new ForumDTO();
+                dto.post = p;
+                dto.comentarios = await comentarioRep.getAllByPost(p.id);
+                dto.curtidas = await curtidaRep.getAllByPost(p.id);
+                dto.anexosPostagem = await anexoRep.getAllByPost(p.id);
+
+
+                list.Add(dto);
+
+            }
+
+
+            return Ok(list);
+        }
     }
 }
