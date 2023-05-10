@@ -23,5 +23,11 @@ namespace VtrEffectsDados.Data.Repositorio
             var curtida = context.Curtida.Where(x => x.postagemid == idpost).ToList();
             return curtida;
         }
+
+        public async Task<Curtida?> getCurtida(Curtida curtida)
+        {
+            var curt = context.Curtida.Where(x => x.usuarioid == curtida.usuarioid && x.postagemid  == curtida.postagemid).FirstOrDefault();
+            return curt;
+        }
     }
 }

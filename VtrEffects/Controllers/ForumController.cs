@@ -144,15 +144,24 @@ namespace VtrEffects.Controllers
         [HttpPost(), Route("Curtida")]
         public async Task<ActionResult<bool>> curtida(Curtida curtida)
         {
-            var curt = curtidaRep.getByUsuario(curtida.usuarioid);
-            if (curt.Result == null)
+            var curt = await curtidaRep.getCurtida(curtida);
+            if (curt == null)
             {
                 await curtidaRep.SaveAsync(curtida);
                 return Ok(true);
+
+                //se não existe curtida nesse post para esse usuario, ele vai criar
             }
             else
             {
-                await curtidaRep.DeleteAsync(curt.Result);
+                //caso contrário, se for uma curtida do outro tipo, ele deleta a primeira e cria a nova, se não ele só deleta a primeira
+
+                if (curt.tipo != curtida.tipo)
+                {
+                    await curtidaRep.SaveAsync(curtida);
+                    return Ok(true);
+                }
+                await curtidaRep.DeleteAsync(curt);
                 return Ok(false);
             }
 
