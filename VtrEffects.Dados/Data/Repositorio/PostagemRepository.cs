@@ -18,6 +18,11 @@ namespace VtrEffectsDados.Data.Repositorio
             return await entity_.Where(x => x.dataExclusao == null).ToListAsync();
         }
 
+        public async Task<List<Postagem>?> getAllNotDeletedByUser(int userid)
+        {
+            return await entity_.Where(x => x.dataExclusao == null && x.usuarioid == userid).ToListAsync();
+         }
+
         public async Task<int> QtdByUsuario(int usuarioId)
         {
             var posts = await entity_.Where(x => x.usuarioid == usuarioId && x.dataExclusao == null).ToListAsync();

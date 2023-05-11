@@ -24,10 +24,7 @@ namespace VtrEffects.Controllers
             usuarioRep = userrepository;
             seguidoresRep = seguidoresrepository;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+
 
 
         [HttpGet("{email}")]
@@ -57,10 +54,11 @@ namespace VtrEffects.Controllers
         [HttpPut]
         public async Task<ActionResult<List<Usuario>>> UpdateUser(Usuario user)
         {
-            var usuario = user;
+            var usuario = usuarioRep.GetById(user.id); 
             if (usuario == null)
                 return BadRequest("Usuario não encontrada.");
 
+            usuario = user;
             await usuarioRep.UpdateAsync(user);
 
             return Ok(usuarioRep.GetByEmail(usuario.email));
