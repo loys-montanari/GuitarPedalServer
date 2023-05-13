@@ -10,8 +10,6 @@ namespace VtrEffects.DTO
 
         public List<Seguidores> seguindo { get; set; }
 
-
+        public TokenDTO? token { get; set; }
     }
-
-
 }

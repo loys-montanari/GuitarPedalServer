@@ -5,20 +5,26 @@ using VtrEffects.Dominio.Interfaces;
 using VtrEffects.Dominio.Modelo;
 using VtrEffects.DTO;
 using VtrEffectsDados.Data.Repositorio;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 namespace VtrEffects.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoginController    : ControllerBase
+    public class LoginController : ControllerBase
     {
         private IUsuarioRepository usuarioRep;
         private ISeguidoresRepository seguidoresRep;
+        private readonly IConfiguration configuration;
 
-        public LoginController(IUsuarioRepository userrepository, ISeguidoresRepository seguidoresrepository)
+        public LoginController(IUsuarioRepository userrepository, ISeguidoresRepository seguidoresrepository, IConfiguration _configuration)
         {
             usuarioRep = userrepository;
             seguidoresRep = seguidoresrepository;
+            configuration = _configuration;
         }
 
         [HttpPost]
@@ -43,9 +49,49 @@ namespace VtrEffects.Controllers
 
                 retorno.seguindo = seguidoresRep.GetAllSeguidosAsync(retorno.usuario.id).Result;
 
+                retorno.token = GeraToken(logininfo);
 
                 return Ok(retorno);
             }
+        }
+
+        private TokenDTO GeraToken(LoginDTO login)
+        {
+            //define declarações do usuário
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.UniqueName, login.email),
+                new Claim("random", "words"),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            //gera uma chave com base em um algoritmo simetrico
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(configuration["Jwt:key"]));
+
+            //Gera assinatura digital do token usando o algoritmo hmac e a chave privada
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            //Tempo de expiração do token
+            var expiration = configuration["TokenConfiguration:ExpireHours"];
+            var expiracao = DateTime.UtcNow.AddHours(double.Parse(expiration));
+
+            //Classe que representa um token JWT e gera o token
+            JwtSecurityToken token = new JwtSecurityToken(
+                issuer: configuration["TokenConfiguration:Issuer"],
+                audience: configuration["TokenConfiguration:Audience"],
+                claims: claims,
+                expires: expiracao,
+                signingCredentials: credentials);
+
+            //Retorna os dados com o token e informações
+            return new TokenDTO()
+            {
+                Autenticado = true,
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Expiracao = expiracao,
+                Mensagem = "Token JWT"
+            };
         }
     }
 }
