@@ -15,12 +15,12 @@ namespace VtrEffectsDados.Data.Repositorio
 
         public async Task<List<Postagem>> getAllNotDeleted()
         {
-            return await entity_.Where(x => x.dataExclusao == null).ToListAsync();
+            return await entity_.Include("usuario").Where(x => x.dataExclusao == null).ToListAsync();
         }
 
         public async Task<List<Postagem>?> getAllNotDeletedByUser(int userid)
         {
-            return await entity_.Where(x => x.dataExclusao == null && x.usuarioid == userid).ToListAsync();
+            return await entity_.Include("usuario").Where(x => x.dataExclusao == null && x.usuarioid == userid).ToListAsync();
         }
 
     }

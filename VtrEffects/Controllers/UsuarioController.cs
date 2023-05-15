@@ -82,7 +82,7 @@ namespace VtrEffects.Controllers
 
             var user = usuarioRep.GetById(infonovasenha.idusuario);
             if (user == null)
-                return BadRequest("Usuário não encontrada.");
+                return BadRequest("Usuário não encontrado.");
 
             if(infonovasenha.senhaatual == infonovasenha.novasenha)
                 return BadRequest("Escolha uma senha nova diferente da antiga.");
