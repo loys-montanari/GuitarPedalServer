@@ -16,7 +16,7 @@ namespace VtrEffectsDados.Data.Repositorio
 
         public async Task<Produto> GetBySerial(string serial)
         {
-            return context.Produto.Include(p => p.tipoProdutoId).FirstOrDefault(p => p.serial == serial);
+            return context.Produto.Include(p => p.tipoProduto).FirstOrDefault(p => p.serial == serial);
         }
     }
 }

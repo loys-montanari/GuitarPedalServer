@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VtrEffects.Dominio.Interfaces;
 using VtrEffects.Dominio.Modelo;
 using VtrEffects.DTO;
@@ -6,6 +7,7 @@ using VtrEffectsDados.Data.Context;
 
 namespace VtrEffects.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class HomeController : Controller
@@ -45,19 +47,34 @@ namespace VtrEffects.Controllers
             return Ok(produtoList);
         }
 
-        [HttpGet("Produtos/{usuarioId}")]
-        public async Task<ActionResult<IList<ProdutoCliente>>> GetAllProdutosByUsuario(int usuarioId)
+        [HttpGet("ProdutosUsuario/{usuarioId}")]
+        public async Task<ActionResult<ProdutosUsuarioDTO>> GetAllProdutosByUsuario(int usuarioId)
         {
             var usuario = usuarioRepository.GetById(usuarioId);
             if (usuario is null)
                 return BadRequest("Usuário não encontrado.");
 
-            var produtoClienteList = produtoClienteRepository.GetAllByUsuario(usuarioId);
-            return Ok(produtoClienteList);
+            var produtoClienteList = produtoClienteRepository.GetAllByUsuario(usuarioId).Result;
+            
+            ProdutosUsuarioDTO produtosUsuarioDTO = new ProdutosUsuarioDTO();
+            produtosUsuarioDTO.usuarioId = usuario.id;
+
+            foreach(var produtoCliente in produtoClienteList)
+            {
+                ProdutoDTO produto = new ProdutoDTO();
+                produto.serial = produtoCliente.produto.serial;
+                produto.nome = produtoCliente.produto.tipoProduto.nome;
+                produto.descricao = produtoCliente.produto.tipoProduto.descricao;
+                produto.fotoProduto = produtoCliente.produto.tipoProduto.fotoProduto;
+
+                produtosUsuarioDTO.produtos.Add(produto);
+            }
+
+            return Ok(produtosUsuarioDTO);
         }
 
         [HttpPost]
-        public async Task<ActionResult<ProdutoCliente>> CadastrarProduto(ProdutoCadastroDTO produtoCadastro)
+        public async Task<ActionResult<ProdutoDTO>> CadastrarProduto(ProdutoCadastroDTO produtoCadastro)
         {
             if (produtoCadastro is null)
                 return BadRequest("Dados para cadastro não encontrados.");
@@ -83,7 +100,14 @@ namespace VtrEffects.Controllers
             produtoCliente.usuario = usuario;
 
             await produtoClienteRepository.SaveAsync(produtoCliente);
-            return Ok(produtoCliente);
+
+            ProdutoDTO produtoDTO = new ProdutoDTO();
+            produtoDTO.serial = produto.serial;
+            produtoDTO.nome = produto.tipoProduto.nome;
+            produtoDTO.descricao = produto.tipoProduto.descricao;
+            produtoDTO.fotoProduto = produto.tipoProduto.fotoProduto;
+
+            return Ok(produtoDTO);
             //return new CreatedAtRouteResult("GetProdutoByÌd", new { id = produtoCliente.produtoid }, produtoCliente);
         }
     }

@@ -5,6 +5,7 @@ using VtrEffects.Dominio.Modelo;
 using VtrEffectsDados.Data.Context;
 using VtrEffects.Helpers;
 using VtrEffects.DTO;
+using Microsoft.AspNetCore.Authorization;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace VtrEffects.Controllers
@@ -26,7 +27,7 @@ namespace VtrEffects.Controllers
         }
 
 
-
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("{email}")]
         public async Task<ActionResult<Usuario>> GetbyEmail(string email)
         {
@@ -50,7 +51,7 @@ namespace VtrEffects.Controllers
             return Ok(200);
         }
 
-
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut]
         public async Task<ActionResult<List<Usuario>>> UpdateUser(Usuario user)
         {
@@ -64,6 +65,7 @@ namespace VtrEffects.Controllers
             return Ok(usuarioRep.GetByEmail(usuario.email));
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Usuario>> Delete(int id)
         {
@@ -75,7 +77,7 @@ namespace VtrEffects.Controllers
             return Ok(usuarioRep.GetAll());
         }
 
-
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost(), Route("AlterarSenha")]
         public async Task<ActionResult<Usuario>> AlterarSenha(AlterarSenhaDTO infonovasenha)
         {
