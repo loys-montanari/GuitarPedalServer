@@ -18,9 +18,27 @@ namespace VtrEffectsDados.Data.Repositorio
             return curtida;
         }
 
+        public async Task<Curtida> getByUsuarioAndPost(int iduser, int postid)
+        {
+            var curtida = context.Curtida.Where(x => x.usuarioid == iduser && x.postagemid == postid).FirstOrDefault();
+            return curtida;
+        }
+
         public async Task<List<Curtida>> getAllByPost(int idpost)
         {
             var curtida = context.Curtida.Where(x => x.postagemid == idpost).ToList();
+            return curtida;
+        }
+
+        public async Task<List<Curtida>> getAllByPostCurtida(int idpost)
+        {
+            var curtida = context.Curtida.Where(x => x.postagemid == idpost && x.tipo == 1).ToList();
+            return curtida;
+        }
+
+        public async Task<List<Curtida>> getAllByPostNaoCurtida(int idpost)
+        {
+            var curtida = context.Curtida.Where(x => x.postagemid == idpost && x.tipo == 2).ToList();
             return curtida;
         }
 

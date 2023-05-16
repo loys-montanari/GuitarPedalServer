@@ -8,5 +8,6 @@ namespace VtrEffects.Dominio.Interfaces
         Task<Curtida?> getCurtida(Curtida curtida);
         Task<Curtida> getByUsuario(int iduser);
         Task<List<Curtida>> getAllByPost(int idpost);
+        Task<Curtida> getByUsuarioAndPost(int iduser, int postid);
     }
 }

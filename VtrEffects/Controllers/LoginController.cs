@@ -60,9 +60,10 @@ namespace VtrEffects.Controllers
             //define declarações do usuário
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.UniqueName, login.email),
+                new Claim(JwtRegisteredClaimNames.UniqueName, login.email),                
                 new Claim("random", "words"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                
             };
 
             //gera uma chave com base em um algoritmo simetrico

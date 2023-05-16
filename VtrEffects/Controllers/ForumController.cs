@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using VtrEffects.Dominio.Interfaces;
 using VtrEffects.Dominio.Modelo;
 using VtrEffects.DTO;
@@ -82,13 +83,37 @@ namespace VtrEffects.Controllers
 
             var list = new List<ForumDTO>();
             var posts = await postagemRep.getAllNotDeleted();
+            var email = User.Claims.Single(x => x.Type == ClaimTypes.Name).Value;
+ 
+            var user = await usuarioRep.GetByEmail(email);
 
             foreach (Postagem p in posts) {
-
+                var curtidauser = await curtidaRep.getByUsuarioAndPost(user.id, p.id);
                 ForumDTO dto = new ForumDTO();
                 dto.post = p;
                 dto.comentarios = await comentarioRep.getAllByPost(p.id);
-                dto.curtidas = await curtidaRep.getAllByPost(p.id);
+                dto.curtidas = new List<Curtida>();
+                dto.naocurtidas = new List<Curtida>();
+                
+                if(curtidauser  != null) {
+                    dto.curtidobyuser = true;
+                    dto.tipocurtidauser = curtidauser.tipo;
+                }
+                else
+                {
+                    dto.curtidobyuser = false;
+                }
+
+                foreach (Curtida c in await curtidaRep.getAllByPost(p.id))
+                {
+                    if(c.tipo ==1)
+                        dto.curtidas.Add(c);
+                    if (c.tipo == 2)
+                        dto.naocurtidas.Add(c);
+
+                }
+
+
                 dto.anexosPostagem = await anexoRep.getAllByPost(p.id);
 
 
@@ -97,7 +122,7 @@ namespace VtrEffects.Controllers
             }
 
 
-            return Ok(list);
+            return Ok(list.OrderByDescending(x => x.post.dataCriacao));
         }
 
         [HttpGet("{idpost}")]
@@ -146,7 +171,7 @@ namespace VtrEffects.Controllers
         [HttpPost(), Route("Curtida")]
         public async Task<ActionResult<bool>> curtida(Curtida curtida)
         {
-            var curt = await curtidaRep.getCurtida(curtida);
+            var curt = await curtidaRep.getByUsuarioAndPost(curtida.usuarioid,curtida.postagemid);
             if (curt == null)
             {
                 await curtidaRep.SaveAsync(curtida);
@@ -161,7 +186,7 @@ namespace VtrEffects.Controllers
                 if (curt.tipo != curtida.tipo)
                 {
                     await curtidaRep.SaveAsync(curtida);
-                    return Ok(true);
+                    
                 }
                 await curtidaRep.DeleteAsync(curt);
                 return Ok(false);

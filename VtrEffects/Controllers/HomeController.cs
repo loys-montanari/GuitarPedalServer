@@ -48,7 +48,7 @@ namespace VtrEffects.Controllers
         }
 
         [HttpGet("ProdutosUsuario/{usuarioId}")]
-        public async Task<ActionResult<ProdutosUsuarioDTO>> GetAllProdutosByUsuario(int usuarioId)
+        public async Task<ActionResult<IList<ProdutoDTO>>> GetAllProdutosByUsuario(int usuarioId)
         {
             var usuario = usuarioRepository.GetById(usuarioId);
             if (usuario is null)
@@ -56,10 +56,12 @@ namespace VtrEffects.Controllers
 
             var produtoClienteList = produtoClienteRepository.GetAllByUsuario(usuarioId).Result;
             
-            ProdutosUsuarioDTO produtosUsuarioDTO = new ProdutosUsuarioDTO();
-            produtosUsuarioDTO.usuarioId = usuario.id;
+            //ProdutosUsuarioDTO produtosUsuarioDTO = new ProdutosUsuarioDTO();
+            //produtosUsuarioDTO.usuarioId = usuario.id;
 
-            foreach(var produtoCliente in produtoClienteList)
+            IList<ProdutoDTO> produtos = new List<ProdutoDTO>();
+
+            foreach (var produtoCliente in produtoClienteList)
             {
                 ProdutoDTO produto = new ProdutoDTO();
                 produto.serial = produtoCliente.produto.serial;
@@ -67,10 +69,10 @@ namespace VtrEffects.Controllers
                 produto.descricao = produtoCliente.produto.tipoProduto.descricao;
                 produto.fotoProduto = produtoCliente.produto.tipoProduto.fotoProduto;
 
-                produtosUsuarioDTO.produtos.Add(produto);
+               produtos.Add(produto);
             }
 
-            return Ok(produtosUsuarioDTO);
+            return Ok(produtos);
         }
 
         [HttpPost]

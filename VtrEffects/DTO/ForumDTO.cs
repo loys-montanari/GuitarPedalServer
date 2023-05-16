@@ -10,7 +10,14 @@ namespace VtrEffects.DTO
 
         public  List<Curtida>? curtidas { get; set; }
 
+        public List<Curtida>? naocurtidas { get; set; }
+
         public  List<Comentario>? comentarios { get; set; }
+
+        public bool curtidobyuser { get; set; }
+
+        public int? tipocurtidauser { get; set; }
+
 
     }
 }
