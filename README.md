@@ -93,9 +93,7 @@ The following tools were used in the construction of the project:
 [![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/loyslene-montanari-55380511b/)](https://www.linkedin.com/in/loyslene-montanari-55380511b/) 
         </p>
     </td>
-    </tr>
-    <tr>
-    <td align="center">
+			    <td align="center">
         <p>
             <a href="#">
                 <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/32397288?v=4" width="100px;" alt="Mauriani Maciel"/>
@@ -107,7 +105,8 @@ The following tools were used in the construction of the project:
 [![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/maurianimaciel/)](https://www.linkedin.com/in/maurianimaciel/) 
         </p>
     </td>
-    </tr>                  
+    </tr>
+                
     <tr>
     <td align="center">
         <p>
@@ -121,9 +120,7 @@ The following tools were used in the construction of the project:
 [![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/othavio-rubim/)](https://www.linkedin.com/in/othavio-rubim/) 
         </p>
     </td>
-    </tr>   
- <tr>
-    <td align="center">
+			    <td align="center">
         <p>
             <a href="#">
                 <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/88675871?v=4" width="100px;" alt=Vanessa Silva Machado"/>
@@ -135,7 +132,8 @@ The following tools were used in the construction of the project:
 [![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/vanessa-silvamachado)](https://www.linkedin.com/in/vanessa-silvamachado) 
         </p>
     </td>
-    </tr>  
+    </tr>   
+  
 </table>
 
 ---
