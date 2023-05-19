@@ -29,5 +29,11 @@ namespace VtrEffectsDados.Data.Repositorio
             return posts.Count();
         }
 
+        public async Task<int> QtdPosts()
+        {
+            var posts = await entity_.Where(x => x.dataExclusao == null).ToListAsync();
+            return posts.Count();
+        }
+
     }
 }

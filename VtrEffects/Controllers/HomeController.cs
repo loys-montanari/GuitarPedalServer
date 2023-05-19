@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Security.Claims;
+using VtrEffects.Caching;
 using VtrEffects.Dominio.Interfaces;
 using VtrEffects.Dominio.Modelo;
 using VtrEffects.DTO;
@@ -16,13 +19,15 @@ namespace VtrEffects.Controllers
         private IUsuarioRepository usuarioRepository;
         private IProdutoRepository produtoRepository;
         private ITipoProdutoRepository tipoProdutoRepository;
+        private ICachingService _cache;
 
-        public HomeController(IProdutoClienteRepository productoClienteRepository, IUsuarioRepository usuarioRepository, IProdutoRepository produtoRepository, ITipoProdutoRepository tipoProdutoRepository)
+        public HomeController(ICachingService cache, IProdutoClienteRepository productoClienteRepository, IUsuarioRepository usuarioRepository, IProdutoRepository produtoRepository, ITipoProdutoRepository tipoProdutoRepository)
         {
             this.produtoClienteRepository = productoClienteRepository;
             this.usuarioRepository = usuarioRepository;
             this.produtoRepository = produtoRepository;
             this.tipoProdutoRepository = tipoProdutoRepository;
+            this._cache = cache;
         }
 
         public IActionResult Index()
@@ -43,8 +48,27 @@ namespace VtrEffects.Controllers
         [HttpGet]
         public async Task<ActionResult<IList<TipoProduto>>> GetAllProdutos()
         {
-            var produtoList = tipoProdutoRepository.GetAllAsync().Result;
-            return Ok(produtoList);
+
+            var produtosCache = await _cache.GetAsync("Produtos");
+
+            IList<TipoProduto>? produtos;
+            if (!string.IsNullOrWhiteSpace(produtosCache))
+            {
+
+                produtos = JsonConvert.DeserializeObject<IList<TipoProduto>>(produtosCache);
+
+            }
+            else
+            {
+                produtos = await tipoProdutoRepository.GetAllAsync();
+                if (produtos == null)
+                    return BadRequest("Nenhum produto encontrado");
+
+
+            }
+
+            await _cache.SetAsync("Produtos", JsonConvert.SerializeObject(produtos));
+            return Ok(produtos);
         }
 
         [HttpGet("ProdutosUsuario/{usuarioId}")]
@@ -54,25 +78,64 @@ namespace VtrEffects.Controllers
             if (usuario is null)
                 return BadRequest("Usuário não encontrado.");
 
-            var produtoClienteList = produtoClienteRepository.GetAllByUsuario(usuarioId).Result;
-            
-            //ProdutosUsuarioDTO produtosUsuarioDTO = new ProdutosUsuarioDTO();
-            //produtosUsuarioDTO.usuarioId = usuario.id;
-
-            IList<ProdutoDTO> produtos = new List<ProdutoDTO>();
-
-            foreach (var produtoCliente in produtoClienteList)
+            var email = User.Claims.Single(x => x.Type == ClaimTypes.Name).Value; //pegando usuario logado
+            var produtosCache = await _cache.GetAsync("MeusProdutos");
+            IList<ProdutoDTO>? produtos;
+            if (usuario.email == email)
             {
-                ProdutoDTO produto = new ProdutoDTO();
-                produto.serial = produtoCliente.produto.serial;
-                produto.nome = produtoCliente.produto.tipoProduto.nome;
-                produto.descricao = produtoCliente.produto.tipoProduto.descricao;
-                produto.fotoProduto = produtoCliente.produto.tipoProduto.fotoProduto;
 
-               produtos.Add(produto);
+                if (!string.IsNullOrWhiteSpace(produtosCache))
+                {
+
+                    produtos = JsonConvert.DeserializeObject<IList<ProdutoDTO>>(produtosCache);
+                    return Ok(produtos);
+
+                }
+                else
+                {
+                    var produtoClienteList = produtoClienteRepository.GetAllByUsuario(usuarioId).Result;
+
+                    IList<ProdutoDTO> prods = new List<ProdutoDTO>();
+
+                    foreach (var produtoCliente in produtoClienteList)
+                    {
+                        ProdutoDTO produto = new ProdutoDTO();
+                        produto.serial = produtoCliente.produto.serial;
+                        produto.nome = produtoCliente.produto.tipoProduto.nome;
+                        produto.descricao = produtoCliente.produto.tipoProduto.descricao;
+                        produto.fotoProduto = produtoCliente.produto.tipoProduto.fotoProduto;
+
+                        prods.Add(produto);
+                    }
+
+                    await _cache.SetAsync("MeusProdutos", JsonConvert.SerializeObject(prods));
+                    return Ok(prods);
+
+                }
+
+
+            }
+            else
+            {
+                var produtoClienteList = produtoClienteRepository.GetAllByUsuario(usuarioId).Result;
+
+                IList<ProdutoDTO> prods = new List<ProdutoDTO>();
+
+                foreach (var produtoCliente in produtoClienteList)
+                {
+                    ProdutoDTO produto = new ProdutoDTO();
+                    produto.serial = produtoCliente.produto.serial;
+                    produto.nome = produtoCliente.produto.tipoProduto.nome;
+                    produto.descricao = produtoCliente.produto.tipoProduto.descricao;
+                    produto.fotoProduto = produtoCliente.produto.tipoProduto.fotoProduto;
+
+                    prods.Add(produto);
+                }
+                return Ok(prods);
             }
 
-            return Ok(produtos);
+
+
         }
 
         [HttpPost]

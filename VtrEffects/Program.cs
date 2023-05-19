@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.Caching.Memory;
+using VtrEffects.Caching;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -44,6 +46,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ContextVTR>();
+
+builder.Services.AddScoped<ICachingService, CachingService>();
 builder.Services.AddScoped<IAnexoRepository, AnexoRepository>();
 builder.Services.AddScoped<IComentarioRepository, ComentarioRepository>();
 builder.Services.AddScoped<IContatoRepository, ContatoRepository>();
@@ -59,6 +63,12 @@ builder.Services.AddScoped<ISeguidoresRepository, SeguidoresRepository>();
 builder.Services.AddScoped<ITipoProdutoRepository, TipoProdutoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
+
+builder.Services.AddStackExchangeRedisCache( o =>
+{
+    o.InstanceName = "instance";
+    o.Configuration = "localhost:6379";
+});
 
 var app = builder.Build();
 

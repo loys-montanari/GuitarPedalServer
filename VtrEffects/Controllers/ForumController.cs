@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Linq.Expressions;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
+using VtrEffects.Caching;
 using VtrEffects.Dominio.Interfaces;
 using VtrEffects.Dominio.Modelo;
 using VtrEffects.DTO;
@@ -20,15 +24,16 @@ namespace VtrEffects.Controllers
         private ICurtidaRepository curtidaRep;
         private IComentarioRepository comentarioRep;
         private IAnexoRepository anexoRep;
+        private ICachingService _cache;
 
-
-        public ForumController(IUsuarioRepository usuarioRep, IPostagemRepository postagemRep, ICurtidaRepository curtidaRep, IComentarioRepository comentarioRep, IAnexoRepository anexoRep)
+        public ForumController(ICachingService cache, IUsuarioRepository usuarioRep, IPostagemRepository postagemRep, ICurtidaRepository curtidaRep, IComentarioRepository comentarioRep, IAnexoRepository anexoRep)
         {
             this.usuarioRep = usuarioRep;
             this.postagemRep = postagemRep;
             this.curtidaRep = curtidaRep;
             this.comentarioRep = comentarioRep;
             this.anexoRep = anexoRep;
+            this._cache = cache;
         }
 
 
@@ -128,16 +133,31 @@ namespace VtrEffects.Controllers
         [HttpGet("{idpost}")]
         public async Task<ActionResult<ForumDTO>> getPost(int idpost)
         {           
-            var post = postagemRep.GetById(idpost);
-            if (post == null) return BadRequest("Postagem não encontrada");
+            var postCache = await _cache.GetAsync(idpost.ToString());
 
-            if(post.dataExclusao != null) return BadRequest("Postagem excluida");
 
-            ForumDTO dto = new ForumDTO();
-            dto.post = post;
-            dto.comentarios = await comentarioRep.getAllByPost(post.id);
-            dto.curtidas = await curtidaRep.getAllByPost(post.id);
-            dto.anexosPostagem = await anexoRep.getAllByPost(post.id);
+            Postagem? post;
+            ForumDTO? dto = new ForumDTO();
+            if (!string.IsNullOrWhiteSpace(postCache))
+            {
+
+                dto = JsonConvert.DeserializeObject<ForumDTO>(postCache);
+                if (dto.post.dataExclusao != null) return BadRequest("Postagem excluida");
+            }
+            else
+            {
+                post = postagemRep.GetById(idpost);
+                if (post == null) return BadRequest("Postagem não encontrada");
+
+                if (post.dataExclusao != null) return BadRequest("Postagem excluida");
+                dto.post = post;
+                dto.comentarios = await comentarioRep.getAllByPost(post.id);
+                dto.curtidas = await curtidaRep.getAllByPost(post.id);
+                dto.anexosPostagem = await anexoRep.getAllByPost(post.id);
+
+            }
+
+            await _cache.SetAsync(idpost.ToString(), JsonConvert.SerializeObject(dto));
 
             return Ok(dto);
         }
@@ -220,6 +240,17 @@ namespace VtrEffects.Controllers
 
 
             return Ok(list);
+        }
+
+
+        [HttpGet("count"), Route("count")]
+        public async Task<ActionResult<int>> getQuantosPosts()
+        {
+
+            int qtd = await postagemRep.QtdPosts();
+
+
+            return Ok(qtd);
         }
     }
 }

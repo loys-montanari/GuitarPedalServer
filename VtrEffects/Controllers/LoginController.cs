@@ -9,6 +9,9 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Hosting;
+using VtrEffects.Caching;
+using Newtonsoft.Json;
 
 namespace VtrEffects.Controllers
 {
@@ -19,12 +22,16 @@ namespace VtrEffects.Controllers
         private IUsuarioRepository usuarioRep;
         private ISeguidoresRepository seguidoresRep;
         private readonly IConfiguration configuration;
+        private ITipoProdutoRepository tipoProdutoRepository;
+        private ICachingService _cache;
 
-        public LoginController(IUsuarioRepository userrepository, ISeguidoresRepository seguidoresrepository, IConfiguration _configuration)
+        public LoginController(ICachingService cache, ITipoProdutoRepository _tipoProdutoRepository, IUsuarioRepository userrepository, ISeguidoresRepository seguidoresrepository, IConfiguration _configuration)
         {
             usuarioRep = userrepository;
             seguidoresRep = seguidoresrepository;
             configuration = _configuration;
+            this.tipoProdutoRepository = _tipoProdutoRepository;
+            this._cache = cache;
         }
 
         [HttpPost]
@@ -94,5 +101,35 @@ namespace VtrEffects.Controllers
                 Mensagem = "Token JWT"
             };
         }
+
+
+        [HttpGet("produtos")]
+        public async Task<ActionResult<IList<TipoProduto>>> GetAllProdutos()
+        {
+
+            var produtosCache = await _cache.GetAsync("Produtos");
+
+            IList<TipoProduto>? produtos;
+            if (!string.IsNullOrWhiteSpace(produtosCache))
+            {
+
+                produtos = JsonConvert.DeserializeObject<IList<TipoProduto>>(produtosCache);
+              
+            }
+            else
+            {
+                 produtos = await tipoProdutoRepository.GetAllAsync();
+                if (produtos == null)
+                    return BadRequest("Nenhum produto encontrado");
+              
+
+            }
+
+            await _cache.SetAsync("Produtos", JsonConvert.SerializeObject(produtos));
+            return Ok(produtos);
+
+        }
+
+
     }
 }

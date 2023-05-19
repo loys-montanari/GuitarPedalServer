@@ -9,6 +9,7 @@ namespace VtrEffects.Dominio.Interfaces
         Task<List<Postagem>> getAllNotDeleted();
 
         Task<int> QtdByUsuario(int usuarioId);
+        Task<int> QtdPosts();
 
         Task<List<Postagem>?> getAllNotDeletedByUser(int userid);
 
