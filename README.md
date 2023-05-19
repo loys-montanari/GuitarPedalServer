@@ -6,7 +6,7 @@
 
 <p align="center">
     <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/loys-montanari/VtrEffectsServer?color=%2304D361"/>
-    <img alt="Repository size" src="https://img.shields.io/github/repo-size/loys-montanari/VtrEffectsServer" />
+    <img alt="Repository size" src="https://img.shields.io/github/repo-size/loys-montanari/VtrEffectsServer.git" />
     <a href="https://github.com/loys-montanari/VtrEffectsServer/commits/main">
         <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/loys-montanari/VtrEffectsServer">
     </a>
