@@ -98,13 +98,13 @@ The following tools were used in the construction of the project:
     <td align="center">
         <p>
             <a href="#">
-                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/88832100?v=4" width="100px;" alt="Mauriani Maciel"/>
+                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/32397288?v=4" width="100px;" alt="Mauriani Maciel"/>
                 <br />
-                <sub><b>Loyslene Montanari</b></sub></a><a href="#" title=""Loyslene Montanari">
+                <sub><b>Mauriani Maciel</b></sub></a><a href="#" title="Mauriani Maciel">
             </a>
         <br />
 
-[![Linkedin Badge](https://img.shields.io/badge/-Mauriani-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/maurianimaciel/) 
+[![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/maurianimaciel/)](https://www.linkedin.com/in/maurianimaciel/) 
         </p>
     </td>
     </tr>                  
