@@ -13,10 +13,6 @@
     <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen">
 </p>
 
-<h4 align="center">
-	🚧 Development 🚧
-</h4>
-
 ## 💻 Overview
 The VTR Effects Pedals API is a comprehensive solution designed to enhance customer interaction and engagement for a company specializing in the production and sale of effects pedals, primarily for stringed instruments. This API not only facilitates user interaction but also provides valuable information and resources to optimize the pedal experience.
 
