@@ -80,8 +80,8 @@ The following tools were used in the construction of the project:
 
 ## Authors
 <table>
-    <tr>
-    <td align="center">
+       <tr>
+	     <td align="center">
         <p>
             <a href="#">
                 <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/88832100?v=4" width="100px;" alt="Loyslene Montanari"/>
@@ -107,8 +107,6 @@ The following tools were used in the construction of the project:
 [![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/mauriani)](https://github.com/mauriani)
         </p>
     </td>
-    </tr>
-    <tr>
         <td align="center">
         <p>
             <a href="#">
