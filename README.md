@@ -74,7 +74,7 @@ The following tools were used in the construction of the project:
 **.Net Core**
 
 -   **[JWT Token Validation](https://jwt.io)**
--   **[OpenCV](https://redis.io/)**
+-   **[Redis](https://redis.io/)**
 
 ---
 
@@ -108,9 +108,34 @@ The following tools were used in the construction of the project:
         </p>
     </td>
     </tr>                  
+    <tr>
+    <td align="center">
+        <p>
+            <a href="#">
+                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/59673868?v=4" width="100px;" alt="Othavio Augusto"/>
+                <br />
+                <sub><b>Othavio Augusto</b></sub></a><a href="#" title="Othavio Augusto">
+            </a>
+        <br />
 
+[![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/othavio-rubim/)](https://www.linkedin.com/in/othavio-rubim/) 
+        </p>
+    </td>
+    </tr>   
+			    <tr>
+    <td align="center">
+        <p>
+            <a href="#">
+                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/88675871?v=4" width="100px;" alt=Vanessa Silva Machado"/>
+                <br />
+                <sub><b>Vanessa Silva Machado</b></sub></a><a href="#" title="Vanessa Silva Machado">
+            </a>
+        <br />
+
+[![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/vanessa-silvamachado)]https://www.linkedin.com/in/vanessa-silvamachado) 
+        </p>
+    </td>
+    </tr>  
 </table>
 
 ---
-
-## 📝 Licença
