@@ -135,6 +135,19 @@ The following tools were used in the construction of the project:
 [![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/vanessa-sm)](https://github.com/vanessa-sm)
         </p>
     </td>
+	            <td align="center">
+            <p>
+                <a href="#">
+                    <img style="border-radius: 50%" src="https://avatars3.githubusercontent.com/u/88675871?s=460&u=61b426b901b8fe02e12019b1fdb67bf0072d4f00&v=4" width="100px;" alt="Vanessa Machado"/>
+                    <br />
+                    <sub><b>Vanessa Machado</b></sub></a><a href="#" title="Vanessa Machado">
+                </a>
+                <br/>
+
+[![Linkedin Badge](https://img.shields.io/badge/-Vanessa-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/vanessa-machado-4302b8ab/)](https://www.linkedin.com/in/vanessa-machado-4302b8ab/) 
+[![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/vanessa-sm)](https://github.com/vanessa-sm)
+        </p>
+    </td>
     </tr>
 </table>
 
