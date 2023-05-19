@@ -91,7 +91,7 @@ The following tools were used in the construction of the project:
         <br />
 
 [![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/loyslene-montanari-55380511b/)](https://www.linkedin.com/in/loyslene-montanari-55380511b/) 
-[![Github Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/loys-montanari)](https://github.com/loys-montanari)		
+[![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/loys-montanari)](https://github.com/loys-montanari)		
         </p>
     </td>
     <td align="center">
@@ -103,8 +103,8 @@ The following tools were used in the construction of the project:
             </a>
             <br/>
 
-[![Linkedin Badge](https://img.shields.io/badge/-Kassia-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/maurianimaciel/)](https://www.linkedin.com/in/maurianimaciel/) 
-[![Github Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/mauriani)](https://github.com/mauriani)
+[![Linkedin Badge](https://img.shields.io/badge/-Mauriani-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/maurianimaciel/)](https://www.linkedin.com/in/maurianimaciel/) 
+[![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/mauriani)](https://github.com/mauriani)
         </p>
     </td>
     </tr>
@@ -119,7 +119,7 @@ The following tools were used in the construction of the project:
         <br />
 
 [![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/othavio-rubim/)](https://www.linkedin.com/in/othavio-rubim/) 
-[![Github Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/OthavioBF)](https://github.com/OthavioBF)
+[![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/OthavioBF)](https://github.com/OthavioBF)
             </p>
         </td>
         <td align="center">
@@ -132,7 +132,7 @@ The following tools were used in the construction of the project:
                 <br/>
 
 [![Linkedin Badge](https://img.shields.io/badge/-Vanessa-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/vanessa-machado-4302b8ab/)](https://www.linkedin.com/in/vanessa-machado-4302b8ab/) 
-[![Github Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/vanessa-sm)](https://github.com/vanessa-sm)
+[![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/vanessa-sm)](https://github.com/vanessa-sm)
         </p>
     </td>
     </tr>
