@@ -67,7 +67,7 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddStackExchangeRedisCache( o =>
 {
     o.InstanceName = "instance";
-    o.Configuration = "localhost:6379";
+    o.Configuration = "vtreffects.redis.cache.windows.net:6380";
 });
 
 var app = builder.Build();
