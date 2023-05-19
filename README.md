@@ -66,7 +66,6 @@ The following tools were used in the construction of the project:
 ---
 
 ## Authors
-
 <table>
        <tr>
 	     <td align="center">
