@@ -86,50 +86,56 @@ The following tools were used in the construction of the project:
             <a href="#">
                 <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/88832100?v=4" width="100px;" alt="Loyslene Montanari"/>
                 <br />
-                <sub><b>Loyslene Montanari</b></sub></a><a href="#" title=""Loyslene Montanari">
+                <sub><b>Loyslene Montanari</b></sub></a><a href="#" title="Loyslene Montanari">
             </a>
         <br />
 
 [![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/loyslene-montanari-55380511b/)](https://www.linkedin.com/in/loyslene-montanari-55380511b/) 
-        </p>
-
-        <p>
-            <a href="#">
-                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/32397288?v=4" width="100px;" alt="Mauriani Maciel"/>
-                <br />
-                <sub><b>Mauriani Maciel</b></sub></a><a href="#" title="Mauriani Maciel">
-            </a>
-        <br />
-
-[![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/maurianimaciel/)](https://www.linkedin.com/in/maurianimaciel/) 
+[![Github Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/loys-montanari)](https://github.com/loys-montanari)		
         </p>
     </td>
-    </tr>
-                
-    <tr>
     <td align="center">
         <p>
             <a href="#">
-                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/59673868?v=4" width="100px;" alt="Othavio Augusto"/>
+                <img style="border-radius: 50%" src="https://avatars.githubusercontent.com/u/32397288?v=4" width="100px;" alt="Mauriani Maciel"/>
                 <br />
-                <sub><b>Othavio Augusto</b></sub></a><a href="#" title="Othavio Augusto">
+                <sub><b>Mauriani Maciel</b></sub></a><a href="#" title="Mauriani Maciel">
+            </a>
+            <br/>
+
+[![Linkedin Badge](https://img.shields.io/badge/-Kassia-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/maurianimaciel/)](https://www.linkedin.com/in/maurianimaciel/) 
+[![Github Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/mauriani)](https://github.com/mauriani)
+        </p>
+    </td>
+    </tr>
+    <tr>
+        <td align="center">
+        <p>
+            <a href="#">
+                 <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/59673868?v=4" width="100px;" alt="Othavio Augusto"/>
+                <br />
+                 <sub><b>Othavio Augusto</b></sub></a><a href="#" title="Othavio Augusto">
             </a>
         <br />
 
 [![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/othavio-rubim/)](https://www.linkedin.com/in/othavio-rubim/) 
-        </p>
+[![Github Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/OthavioBF)](https://github.com/OthavioBF)
+            </p>
+        </td>
+        <td align="center">
+            <p>
+                <a href="#">
+                    <img style="border-radius: 50%" src="https://avatars3.githubusercontent.com/u/88675871?s=460&u=61b426b901b8fe02e12019b1fdb67bf0072d4f00&v=4" width="100px;" alt="Vanessa Machado"/>
+                    <br />
+                    <sub><b>Vanessa Machado</b></sub></a><a href="#" title="Vanessa Machado">
+                </a>
+                <br/>
 
-        <p>
-            <a href="#">
-                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/88675871?v=4" width="100px;" alt=Vanessa Silva Machado"/>
-                <br />
-                <sub><b>Vanessa Silva Machado</b></sub></a><a href="#" title="Vanessa Silva Machado">
-            </a>
-        <br />
-[![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/vanessa-silvamachado)](https://www.linkedin.com/in/vanessa-silvamachado) 
+[![Linkedin Badge](https://img.shields.io/badge/-Vanessa-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/vanessa-machado-4302b8ab/)](https://www.linkedin.com/in/vanessa-machado-4302b8ab/) 
+[![Github Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/vanessa-sm)](https://github.com/vanessa-sm)
         </p>
     </td>
-    </tr>   
-  </table>
+    </tr>
+</table>
 
 ---
