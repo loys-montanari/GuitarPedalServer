@@ -68,8 +68,7 @@ The following tools were used in the construction of the project:
 ## Authors
 
 <table>
-	<tr>
-
+       <tr>
 	     <td align="center">
         <p>
             <a href="#">
@@ -109,7 +108,7 @@ The following tools were used in the construction of the project:
 [![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/mauriani)](https://github.com/mauriani)
         </p>
     </td>
-	    
+	        &nbsp;&nbsp; 
         <td align="center">
         <p>
             <a href="#">
@@ -123,7 +122,7 @@ The following tools were used in the construction of the project:
 [![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/OthavioBF)](https://github.com/OthavioBF)
             </p>
         </td>
-	   
+	       &nbsp;&nbsp; 
         <td align="center">
             <p>
                 <a href="#">
@@ -137,8 +136,8 @@ The following tools were used in the construction of the project:
 [![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/vanessa-sm)](https://github.com/vanessa-sm)
         </p>
     </td>
-	
-</tr>
+	       &nbsp;&nbsp; 
 
+    </tr>
 </table>
 
