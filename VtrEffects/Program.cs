@@ -64,11 +64,12 @@ builder.Services.AddScoped<ITipoProdutoRepository, TipoProdutoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 
-builder.Services.AddStackExchangeRedisCache( o =>
+builder.Services.AddStackExchangeRedisCache(o =>
 {
     o.InstanceName = "instance";
-    o.Configuration = "vtreffects.redis.cache.windows.net:6380";
+    o.Configuration = "vtreffects.redis.cache.windows.net:6380,password=T7R6jLtmpOJzJuU3eBNBEC32XFppaMqaZAzCaJMliLw=,ssl=True,abortConnect=False";
 });
+
 
 var app = builder.Build();
 

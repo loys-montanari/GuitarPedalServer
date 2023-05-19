@@ -107,25 +107,25 @@ namespace VtrEffects.Controllers
         public async Task<ActionResult<IList<TipoProduto>>> GetAllProdutos()
         {
 
-            //var produtosCache = await _cache.GetAsync("Produtos");
+            var produtosCache = await _cache.GetAsync("Produtos");
 
             IList<TipoProduto>? produtos;
-            //if (!string.IsNullOrWhiteSpace(produtosCache))
-            //{
+            if (!string.IsNullOrWhiteSpace(produtosCache))
+            {
 
-            //    produtos = JsonConvert.DeserializeObject<IList<TipoProduto>>(produtosCache);
-              
-            //}
-            //else
-            //{
-                 produtos = await tipoProdutoRepository.GetAllAsync();
+                produtos = JsonConvert.DeserializeObject<IList<TipoProduto>>(produtosCache);
+
+            }
+            else
+            {
+                produtos = await tipoProdutoRepository.GetAllAsync();
                 if (produtos == null)
                     return BadRequest("Nenhum produto encontrado");
-              
 
-            //}
 
-            await _cache.SetAsync("Produtos", JsonConvert.SerializeObject(produtos));
+                }
+
+                await _cache.SetAsync("Produtos", JsonConvert.SerializeObject(produtos));
             return Ok(produtos);
 
         }
