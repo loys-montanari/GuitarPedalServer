@@ -107,7 +107,7 @@ The following tools were used in the construction of the project:
 [![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/mauriani)](https://github.com/mauriani)
         </p>
     </td>
-	        <td align="center"> </td>
+	        <td align="center">&nbsp;&nbsp; </td>
         <td align="center">
         <p>
             <a href="#">
@@ -121,6 +121,7 @@ The following tools were used in the construction of the project:
 [![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/OthavioBF)](https://github.com/OthavioBF)
             </p>
         </td>
+	       <td align="center">&nbsp;&nbsp; </td>
         <td align="center">
             <p>
                 <a href="#">
@@ -134,6 +135,7 @@ The following tools were used in the construction of the project:
 [![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/vanessa-sm)](https://github.com/vanessa-sm)
         </p>
     </td>
+	       <td align="center">&nbsp;&nbsp; </td>
 	            <td align="center">
             <p>
                 <a href="#">
