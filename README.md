@@ -122,7 +122,7 @@ The following tools were used in the construction of the project:
         </p>
     </td>
     </tr>   
-			    <tr>
+ <tr>
     <td align="center">
         <p>
             <a href="#">
@@ -132,7 +132,7 @@ The following tools were used in the construction of the project:
             </a>
         <br />
 
-[![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/vanessa-silvamachado)]https://www.linkedin.com/in/vanessa-silvamachado) 
+[![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/vanessa-silvamachado)](https://www.linkedin.com/in/vanessa-silvamachado) 
         </p>
     </td>
     </tr>  
