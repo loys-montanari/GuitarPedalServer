@@ -17,15 +17,6 @@
 	🚧 Development 🚧
 </h4>
 
-<p align="center">
-    <a href="#about">About</a> •
-    <a href="#features">Features</a> •
-    <a href="#how-it-works">How it works</a> • 
-    <a href="#tech-stack">Tech Stack</a> • 
-    <a href="#author">Authors</a> • 
-    <a href="#user-content-license">License</a>
-</p>
-
 ## 💻 Overview
 The VTR Effects Pedals API is a comprehensive solution designed to enhance customer interaction and engagement for a company specializing in the production and sale of effects pedals, primarily for stringed instruments. This API not only facilitates user interaction but also provides valuable information and resources to optimize the pedal experience.
 
