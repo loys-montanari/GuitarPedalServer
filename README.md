@@ -138,6 +138,6 @@ The following tools were used in the construction of the project:
     </td>
 	       &nbsp;&nbsp; 
 
-    </tr>
+
 </table>
 
