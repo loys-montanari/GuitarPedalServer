@@ -46,6 +46,7 @@ namespace VtrEffects.Controllers
                 return Conflict("E-mail já cadastrado.");
 
             user.senha = CriptoHelper.HashMD5(user.senha);
+            user.foto = fotosApp.getFotoNovoUsuario();
             await usuarioRep.SaveAsync(user);
 
             return Ok(200);
