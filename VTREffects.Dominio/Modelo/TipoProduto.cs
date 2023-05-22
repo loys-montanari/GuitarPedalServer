@@ -19,7 +19,7 @@ namespace VtrEffects.Dominio.Modelo
 
         public string versaoAtual { get; set; }
 
-        public string fotoProduto { get; set; }
-
+        //public string fotoProduto { get; set; }
+        public List<TipoProdutoImagem> imagens { get; set; }
     }
 }

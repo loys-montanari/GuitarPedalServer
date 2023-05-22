@@ -19,14 +19,16 @@ namespace VtrEffects.Controllers
         private IUsuarioRepository usuarioRepository;
         private IProdutoRepository produtoRepository;
         private ITipoProdutoRepository tipoProdutoRepository;
+        private ITipoProdutoImagemRepository tipoProdutoImagemRepository;
         private ICachingService _cache;
 
-        public HomeController(ICachingService cache, IProdutoClienteRepository productoClienteRepository, IUsuarioRepository usuarioRepository, IProdutoRepository produtoRepository, ITipoProdutoRepository tipoProdutoRepository)
+        public HomeController(ICachingService cache, IProdutoClienteRepository productoClienteRepository, IUsuarioRepository usuarioRepository, IProdutoRepository produtoRepository, ITipoProdutoRepository tipoProdutoRepository, ITipoProdutoImagemRepository tipoProdutoImagemRepository)
         {
             this.produtoClienteRepository = productoClienteRepository;
             this.usuarioRepository = usuarioRepository;
             this.produtoRepository = produtoRepository;
             this.tipoProdutoRepository = tipoProdutoRepository;
+            this.tipoProdutoImagemRepository = tipoProdutoImagemRepository;
             this._cache = cache;
         }
 
@@ -127,15 +129,14 @@ namespace VtrEffects.Controllers
                     produto.serial = produtoCliente.produto.serial;
                     produto.nome = produtoCliente.produto.tipoProduto.nome;
                     produto.descricao = produtoCliente.produto.tipoProduto.descricao;
-                    produto.fotoProduto = produtoCliente.produto.tipoProduto.fotoProduto;
+                    //produto.fotoProduto = produtoCliente.produto.tipoProduto.fotoProduto;
+
+                    //produto.imagens = produtoCliente.produto.tipoProduto.imagens; (Não está puxando as imagens)
+                    produto.imagens = tipoProdutoImagemRepository.GetAllByTipoProduto(produtoCliente.produto.tipoProduto.id).Result.ToList();
 
                     prods.Add(produto);
                 }
                 return Ok(prods);
-          
-
-
-
         }
 
         [HttpPost]
@@ -170,7 +171,8 @@ namespace VtrEffects.Controllers
             produtoDTO.serial = produto.serial;
             produtoDTO.nome = produto.tipoProduto.nome;
             produtoDTO.descricao = produto.tipoProduto.descricao;
-            produtoDTO.fotoProduto = produto.tipoProduto.fotoProduto;
+            //produtoDTO.fotoProduto = produto.tipoProduto.fotoProduto;
+            produtoDTO.imagens = tipoProdutoImagemRepository.GetAllByTipoProduto(produto.tipoProduto.id).Result.ToList();
 
             return Ok(produtoDTO);
             //return new CreatedAtRouteResult("GetProdutoByÌd", new { id = produtoCliente.produtoid }, produtoCliente);
