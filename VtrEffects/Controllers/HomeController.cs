@@ -158,7 +158,7 @@ namespace VtrEffects.Controllers
                     //produto.fotoProduto = produtoCliente.produto.tipoProduto.fotoProduto;
 
                     //produto.imagens = produtoCliente.produto.tipoProduto.imagens; (Não está puxando as imagens)
-                    produto.imagens = tipoProdutoImagemRepository.GetAllByTipoProduto(produtoCliente.produto.tipoProduto.id).Result.ToList();
+                    produto.imagem = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produtoCliente.produto.tipoProduto.id,2).Result.imagem;
 
                     prods.Add(produto);
                 }
