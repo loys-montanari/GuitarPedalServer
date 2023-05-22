@@ -67,7 +67,7 @@ builder.Services.AddScoped<ITipoProdutoImagemRepository, TipoProdutoImagemReposi
 builder.Services.AddStackExchangeRedisCache(o =>
 {
     o.InstanceName = "instance";
-    o.Configuration = "vtreffects.redis.cache.windows.net:6380,password=T7R6jLtmpOJzJuU3eBNBEC32XFppaMqaZAzCaJMliLw=,ssl=True,abortConnect=False";
+    o.Configuration = "vtreffects.redis.cache.windows.net:6380,password=uWZAjCpp6UgREOKhxcOwWm87ySLvIxH7PAzCaDaWbjU=,ssl=True,abortConnect=False";
 });
 
 
