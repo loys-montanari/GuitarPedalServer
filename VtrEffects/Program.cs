@@ -62,7 +62,7 @@ builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<ISeguidoresRepository, SeguidoresRepository>();
 builder.Services.AddScoped<ITipoProdutoRepository, TipoProdutoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-
+builder.Services.AddScoped<ITipoProdutoImagemRepository, TipoProdutoImagemRepository>();
 
 builder.Services.AddStackExchangeRedisCache(o =>
 {
@@ -78,7 +78,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+} 
 
 app.UseCors(MyAllowSpecificOrigins);
 app.UseHttpsRedirection();

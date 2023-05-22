@@ -24,6 +24,7 @@ namespace VtrEffectsDados.Data.Context
 
 
         public DbSet<Seguidores> Seguidores { get; set; }
+        public DbSet<TipoProdutoImagem> TipoProdutoImagem { get; set; }
 
 
         public ContextVTR(DbContextOptions<ContextVTR> options) : base(options)
