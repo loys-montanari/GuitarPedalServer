@@ -7,6 +7,6 @@ namespace VtrEffects.DTO
         public string serial { get; set; }
         public string nome { get; set; }
         public string descricao { get; set; }
-        public List<TipoProdutoImagem>? imagens { get; set; }
+        public string fotoProduto { get; set; }
     }
 }

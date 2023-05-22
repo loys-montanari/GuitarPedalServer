@@ -13,8 +13,8 @@ namespace VtrEffects.Caching
             _options = new DistributedCacheEntryOptions
             {
 
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(3600),
-                SlidingExpiration = TimeSpan.FromSeconds(1200)
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(360),
+                SlidingExpiration = TimeSpan.FromSeconds(120)
             };
         }
         public async Task<string> GetAsync(string key)

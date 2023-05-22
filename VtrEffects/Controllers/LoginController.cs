@@ -23,15 +23,17 @@ namespace VtrEffects.Controllers
         private ISeguidoresRepository seguidoresRep;
         private readonly IConfiguration configuration;
         private ITipoProdutoRepository tipoProdutoRepository;
+        private ITipoProdutoImagemRepository tipoProdutoImagemRepository;
         private ICachingService _cache;
 
-        public LoginController(ICachingService cache, ITipoProdutoRepository _tipoProdutoRepository, IUsuarioRepository userrepository, ISeguidoresRepository seguidoresrepository, IConfiguration _configuration)
+        public LoginController(ITipoProdutoImagemRepository tipoProdutoImagemRepository, ICachingService cache, ITipoProdutoRepository _tipoProdutoRepository, IUsuarioRepository userrepository, ISeguidoresRepository seguidoresrepository, IConfiguration _configuration)
         {
             usuarioRep = userrepository;
             seguidoresRep = seguidoresrepository;
             configuration = _configuration;
             this.tipoProdutoRepository = _tipoProdutoRepository;
             this._cache = cache;
+            this.tipoProdutoImagemRepository = tipoProdutoImagemRepository;
         }
 
         [HttpPost]
@@ -109,24 +111,50 @@ namespace VtrEffects.Controllers
 
             var produtosCache = await _cache.GetAsync("Produtos");
 
-            IList<TipoProduto>? produtos;
+            IList<TipoProdutoDTO>? produtosDto;
             if (!string.IsNullOrWhiteSpace(produtosCache))
             {
 
-                produtos = JsonConvert.DeserializeObject<IList<TipoProduto>>(produtosCache);
+                produtosDto = JsonConvert.DeserializeObject<IList<TipoProdutoDTO>>(produtosCache);
 
             }
             else
             {
-                produtos = await tipoProdutoRepository.GetAllAsync();
+                produtosDto = new List<TipoProdutoDTO>();
+                var produtos = await tipoProdutoRepository.GetAllAsync();
+
+                foreach (TipoProduto produto in produtos)
+                {
+                    TipoProdutoDTO produtoDTO = new TipoProdutoDTO();
+                    produtoDTO.produto = produto;
+
+                    var fotoCatalogo = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.id, 1).Result.imagem;
+                    var fotoPng = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.id, 2).Result.imagem;
+
+                    if (fotoCatalogo != null)
+                    {
+                        produtoDTO.fotoCatalogo = fotoCatalogo;
+                        if (fotoPng != null)
+                        {
+                            produtoDTO.fotoPng = fotoPng;
+                        }
+                        else
+                        {
+                            produtoDTO.fotoPng = fotoCatalogo;
+                        }
+                    }
+                    produtosDto.Add(produtoDTO);
+                }
+
+
                 if (produtos == null)
                     return BadRequest("Nenhum produto encontrado");
 
 
-                }
+            }
 
-                await _cache.SetAsync("Produtos", JsonConvert.SerializeObject(produtos));
-            return Ok(produtos);
+            await _cache.SetAsync("Produtos", JsonConvert.SerializeObject(produtosDto));
+            return Ok(produtosDto);
 
         }
 
