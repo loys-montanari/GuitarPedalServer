@@ -158,7 +158,7 @@ namespace VtrEffects.Controllers
                     //produto.fotoProduto = produtoCliente.produto.tipoProduto.fotoProduto;
 
                     //produto.imagens = produtoCliente.produto.tipoProduto.imagens; (Não está puxando as imagens)
-                    produto.imagem = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produtoCliente.produto.tipoProduto.id,2).Result.imagem;
+                    produto.fotoProduto = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produtoCliente.produto.tipoProduto.id,2).Result.imagem;
 
                     prods.Add(produto);
                 }
@@ -198,7 +198,7 @@ namespace VtrEffects.Controllers
             produtoDTO.nome = produto.tipoProduto.nome;
             produtoDTO.descricao = produto.tipoProduto.descricao;
             //produtoDTO.fotoProduto = produto.tipoProduto.fotoProduto;
-            produtoDTO.imagens = tipoProdutoImagemRepository.GetAllByTipoProduto(produto.tipoProduto.id).Result.ToList();
+          //  produtoDTO.fotoProduto = tipoProdutoImagemRepository.GetAllByTipoProduto(produto.tipoProduto.id).Result.ToList();
 
             return Ok(produtoDTO);
             //return new CreatedAtRouteResult("GetProdutoByÌd", new { id = produtoCliente.produtoid }, produtoCliente);
