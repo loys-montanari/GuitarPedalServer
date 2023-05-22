@@ -117,7 +117,7 @@ The following tools were used in the construction of the project:
             </a>
         <br />
 
-[![Linkedin Badge](https://img.shields.io/badge/-Loyslene-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/othavio-rubim/)](https://www.linkedin.com/in/othavio-rubim/) 
+[![Linkedin Badge](https://img.shields.io/badge/-Othavio-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/othavio-rubim/)](https://www.linkedin.com/in/othavio-rubim/) 
 [![Github Badge](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white&link=https://github.com/OthavioBF)](https://github.com/OthavioBF)
             </p>
         </td>
