@@ -140,3 +140,15 @@ The following tools were used in the construction of the project:
 
 </table>
 
+
+## 📝 License
+
+This software is distributed under the [MIT]. Here are some key points of the license:
+
+- You are allowed to copy, modify, and distribute the software.
+- You must include the copyright notice and the license in all copies of the software.
+- If you modify the software and distribute those modifications, you must make the source code of the modifications available under the terms of the [MIT].
+- By using this software, you agree to the terms of the [MIT].
+
+To read the full license, please refer to the [MIT](./LICENSE) file.
+
