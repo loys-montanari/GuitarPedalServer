@@ -12,7 +12,7 @@ namespace VtrEffects.Dominio.Interfaces
     {
         Task<Usuario> GetByEmail(string email);
 
-        Task<int> GetIDByEmail(string email);
+        Task<int> GetIdByEmail(string email);
         Task<bool> UsuarioExisteByEmail(string email);
         Task<bool> UsuarioExiste(Usuario usuario);
 

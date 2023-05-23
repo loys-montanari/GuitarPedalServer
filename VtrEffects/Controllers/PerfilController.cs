@@ -49,7 +49,7 @@ namespace VtrEffects.Controllers
         {
             var email = User.Claims.Single(x => x.Type == ClaimTypes.Name).Value;
 
-            var userlogado = await usuarioRep.GetIDByEmail(email);
+            var userlogado = await usuarioRep.GetIdByEmail(email);
             var dadousercache = await _cache.GetAsync(usuarioId.ToString());
             var followersusercache = await _cache.GetAsync($"seguidoresUsuario-{usuarioId}");
             var followingusercache = await _cache.GetAsync($"seguindosUsuario-{usuarioId}");
