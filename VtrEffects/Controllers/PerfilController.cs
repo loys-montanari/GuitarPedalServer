@@ -93,7 +93,8 @@ namespace VtrEffects.Controllers
             
             
             
-            var listposts = string.IsNullOrWhiteSpace(postsusercache)  ? await postagemRep.getAllNotDeletedByUser(usuario.id) : JsonConvert.DeserializeObject<List<Postagem>>(postsusercache); 
+            var listposts = string.IsNullOrWhiteSpace(postsusercache)  ? await postagemRep.getAllNotDeletedByUser(usuario.id) : JsonConvert.DeserializeObject<List<Postagem>>(postsusercache);
+            await _cache.SetAsync($"PostsUsuario-{usuarioId}", JsonConvert.SerializeObject(listposts));
             if (listposts != null)
             {
 
@@ -136,7 +137,7 @@ namespace VtrEffects.Controllers
              await _cache.SetAsync(usuarioId.ToString(), JsonConvert.SerializeObject(perfil.usuario));
              await _cache.SetAsync($"seguidoresUsuario-{usuarioId}", JsonConvert.SerializeObject(perfil.followers));
              await _cache.SetAsync($"seguindosUsuario-{usuarioId}", JsonConvert.SerializeObject(perfil.following));
-             await _cache.SetAsync($"PostsUsuario-{usuarioId}", JsonConvert.SerializeObject(perfil.posts));
+             
              await _cache.SetAsync($"ProdutosUsuario-{usuarioId}", JsonConvert.SerializeObject(perfil.produtos));
             return Ok(perfil);
         }
