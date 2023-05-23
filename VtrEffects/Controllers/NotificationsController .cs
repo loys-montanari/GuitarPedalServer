@@ -16,7 +16,7 @@ namespace VtrEffects.Controllers
         }
 
         [HttpPut]
-        [Route("installations")]
+        [Route("api/[controller]/installations")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
@@ -33,7 +33,7 @@ namespace VtrEffects.Controllers
         }
 
         [HttpDelete()]
-        [Route("installations/{installationId}")]
+        [Route("api/[controller]/installations/{installationId}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
@@ -50,7 +50,7 @@ namespace VtrEffects.Controllers
         }
 
         [HttpPost]
-        [Route("requests")]
+        [Route("api/[controller]/requests")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
