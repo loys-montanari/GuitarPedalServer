@@ -30,6 +30,12 @@ namespace VtrEffectsDados.Data.Repositorio
             return curtida;
         }
 
+        public async Task<List<Curtida>> getAllByPostTipo(int idpost, int tipo)
+        {
+            var curtida = context.Curtida.Where(x => x.postagemid == idpost && x.tipo == tipo).ToList();
+            return curtida;
+        }
+
         public async Task<List<Curtida>> getAllByPostCurtida(int idpost)
         {
             var curtida = context.Curtida.Where(x => x.postagemid == idpost && x.tipo == 1).ToList();

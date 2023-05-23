@@ -8,6 +8,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Caching.Memory;
 using VtrEffects.Caching;
+using System.Configuration;
+using VtrEffects.Models;
+using VtrEffects.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -63,11 +68,18 @@ builder.Services.AddScoped<ISeguidoresRepository, SeguidoresRepository>();
 builder.Services.AddScoped<ITipoProdutoRepository, TipoProdutoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ITipoProdutoImagemRepository, TipoProdutoImagemRepository>();
+builder.Services.AddSingleton<INotificationService, NotificationHubService>();
+
+builder.Services.AddOptions<NotificationHubOptions>()
+                .Configure(builder.Configuration.GetSection("NotificationHub").Bind)
+                .ValidateDataAnnotations();
+
 
 builder.Services.AddStackExchangeRedisCache(o =>
 {
     o.InstanceName = "instance";
     o.Configuration = "vtreffects.redis.cache.windows.net:6380,password=uWZAjCpp6UgREOKhxcOwWm87ySLvIxH7PAzCaDaWbjU=,ssl=True,abortConnect=False";
+    // o.Configuration = "localhost:6379";
 });
 
 
