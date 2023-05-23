@@ -9,5 +9,7 @@ namespace VtrEffects.DTO
         public List<Seguidores> following { get; set; } = new List<Seguidores>();
         public List<ForumDTO> posts { get; set; } = new List<ForumDTO>();
         public List<ProdutoDTO> produtos { get; set; } = new List<ProdutoDTO>();
+
+        public bool seguidoPorUsuarioLogado { get; set; }   
     }
 }

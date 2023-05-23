@@ -11,6 +11,8 @@ namespace VtrEffects.Dominio.Interfaces
     public interface IUsuarioRepository : IGenericRepository<Usuario>
     {
         Task<Usuario> GetByEmail(string email);
+
+        Task<int> GetIDByEmail(string email);
         Task<bool> UsuarioExisteByEmail(string email);
         Task<bool> UsuarioExiste(Usuario usuario);
 

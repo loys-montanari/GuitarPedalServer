@@ -21,6 +21,13 @@ namespace VtrEffectsDados.Data.Repositorio
         {
             return await entity_.Include( s=> s.usuario).Where(x => x.seguidorid == id).ToListAsync();
         }
+
+        public async Task<bool> isSeguidoPorUsuario(int id)
+        {
+            var retorno =  entity_.Where(x => x.seguidorid == id).FirstOrDefault() != null ? true : false;
+
+            return  retorno;
+        }
     }
 }
  

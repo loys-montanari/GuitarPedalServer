@@ -39,6 +39,11 @@ namespace VtrEffectsDados.Data.Repositorio
             return usuarioDb;
         }
 
+        public async Task<int> GetIdByEmail(string email)
+        {
+            var usuarioDb = context.Usuario.Where(x => x.email == email).Select(x => x.id).FirstOrDefault();
+            return usuarioDb;
+        }
 
         public async Task<Usuario> ValidarUsuario(string email, string senha)
         {

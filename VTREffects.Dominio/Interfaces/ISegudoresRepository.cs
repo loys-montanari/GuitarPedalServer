@@ -8,5 +8,7 @@ namespace VtrEffects.Dominio.Interfaces
 
         Task<List<Seguidores>> GetAllByUsuarioAsync(int id);
         Task<List<Seguidores>> GetAllSeguidosAsync(int id);
+
+        Task<bool> isSeguidoPorUsuario(int id);
     }
 }

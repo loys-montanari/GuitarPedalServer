@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Security.Claims;
 using VtrEffects.Caching;
 using VtrEffects.Dominio.Interfaces;
 using VtrEffects.Dominio.Modelo;
@@ -46,6 +47,9 @@ namespace VtrEffects.Controllers
         [HttpGet("{usuarioId}")]
         public async Task<ActionResult<PerfilDTO>> GetByUsuario(int usuarioId)
         {
+            var email = User.Claims.Single(x => x.Type == ClaimTypes.Name).Value;
+
+            var userlogado = await usuarioRep.GetIDByEmail(email);
             var dadousercache = await _cache.GetAsync(usuarioId.ToString());
             var followersusercache = await _cache.GetAsync($"seguidoresUsuario-{usuarioId}");
             var followingusercache = await _cache.GetAsync($"seguindosUsuario-{usuarioId}");
@@ -57,6 +61,7 @@ namespace VtrEffects.Controllers
                 return BadRequest();
 
             PerfilDTO perfil = new PerfilDTO();
+            perfil.seguidoPorUsuarioLogado = await seguidoresRep.isSeguidoPorUsuario(userlogado);
             perfil.usuario = usuario;
             perfil.followers = string.IsNullOrWhiteSpace(followersusercache) ? seguidoresRep.GetAllByUsuarioAsync(usuario.id).Result : JsonConvert.DeserializeObject<List<Seguidores>>(followersusercache); 
             perfil.following = string.IsNullOrWhiteSpace(followingusercache) ?  seguidoresRep.GetAllSeguidosAsync(usuario.id).Result : JsonConvert.DeserializeObject<List<Seguidores>>(followingusercache);
@@ -105,7 +110,7 @@ namespace VtrEffects.Controllers
                     var naocurtidascache = await _cache.GetAsync($"naoCurtidasPost-{p.id}");
                     var anexoscache = await _cache.GetAsync($"anexosPost-{p.id}");
 
-                    var curtidauser = await curtidaRep.getByUsuarioAndPost(usuario.id, p.id);
+                    var curtidauser = await curtidaRep.getByUsuarioAndPost(userlogado, p.id);
                     ForumDTO dto = new ForumDTO();
                     dto.post = p;
                     dto.comentarios = string.IsNullOrWhiteSpace(comentarioscache) ? await comentarioRep.getAllByPost(p.id) : JsonConvert.DeserializeObject<List<Comentario>>(comentarioscache); 
