@@ -147,5 +147,56 @@ namespace VtrEffects.Controllers
             return Ok(perfil);
         }
 
+
+        [HttpPost("seguir/{usuarioId}")]
+        public async Task<ActionResult<bool>> seguir(int usuarioId)
+        {
+            var email = User.Claims.Single(x => x.Type == ClaimTypes.Name).Value;
+
+            var userlogado = await usuarioRep.GetIdByEmail(email);
+            var dadousercache = await _cache.GetAsync(usuarioId.ToString());
+            var followersusercache = await _cache.GetAsync($"seguidoresUsuario-{usuarioId}");
+
+
+
+                List<Seguidores> seguidores = string.IsNullOrWhiteSpace(followersusercache) ? seguidoresRep.GetAllByUsuarioAsync(usuarioId).Result : JsonConvert.DeserializeObject<List<Seguidores>>(followersusercache);
+                if(seguidores != null)
+                 {
+                
+                    bool seguindo = seguidores.Any(x => x.seguidorid == userlogado);
+                   if (seguindo)
+                 {
+                    Seguidores seguidor = seguidores.FirstOrDefault(x => x.seguidorid == userlogado);
+                    seguidoresRep.DeleteAsync(seguidor);
+                    seguidores.RemoveAll(x => x.seguidorid.Equals(userlogado));
+                    await _cache.SetAsync($"seguidoresUsuario-{usuarioId}", JsonConvert.SerializeObject(seguidores));
+
+                }
+                 else
+                {
+                    Seguidores seguidor = new Seguidores { seguidorid = userlogado, usuarioid = usuarioId };
+                    seguidoresRep.SaveAsync(seguidor);
+                    seguidores.Add(seguidor);
+                    await _cache.SetAsync($"seguidoresUsuario-{usuarioId}", JsonConvert.SerializeObject(seguidores));
+
+
+                }
+
+                return Ok(true);
+                }
+                else
+                 {
+                List<Seguidores> seguidoresnovos = new List<Seguidores>();
+                Seguidores seguidor = new Seguidores { seguidorid = userlogado, usuarioid = usuarioId };
+                seguidoresRep.SaveAsync(seguidor);
+                seguidoresnovos.Add(seguidor);
+                await _cache.SetAsync($"seguidoresUsuario-{usuarioId}", JsonConvert.SerializeObject(seguidoresnovos));
+                return Ok(true);
+
+            }
+
+
+
+        }
 }
 }
