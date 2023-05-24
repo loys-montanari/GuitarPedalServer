@@ -176,7 +176,7 @@ namespace VtrEffects.Controllers
                  else
                 {
                     Seguidores seguidor = new Seguidores { seguidorid = userlogado, usuarioid = usuarioId };
-                    seguidoresRep.SaveAsync(seguidor);
+                    seguidor = await seguidoresRep.SaveAsync(seguidor);
                     seguidores.Add(seguidor);
                     await _cache.SetAsync($"seguidoresUsuario-{usuarioId}", JsonConvert.SerializeObject(seguidores));
 
@@ -189,7 +189,7 @@ namespace VtrEffects.Controllers
                  {
                 List<Seguidores> seguidoresnovos = new List<Seguidores>();
                 Seguidores seguidor = new Seguidores { seguidorid = userlogado, usuarioid = usuarioId };
-                seguidoresRep.SaveAsync(seguidor);
+                seguidor = await seguidoresRep.SaveAsync(seguidor);
                 seguidoresnovos.Add(seguidor);
                 await _cache.SetAsync($"seguidoresUsuario-{usuarioId}", JsonConvert.SerializeObject(seguidoresnovos));
                 return Ok(true);
