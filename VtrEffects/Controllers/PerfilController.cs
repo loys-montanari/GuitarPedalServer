@@ -170,6 +170,7 @@ namespace VtrEffects.Controllers
                     seguidoresRep.DeleteAsync(seguidor);
                     seguidores.RemoveAll(x => x.seguidorid.Equals(userlogado));
                     await _cache.SetAsync($"seguidoresUsuario-{usuarioId}", JsonConvert.SerializeObject(seguidores));
+                    return Ok(false);
 
                 }
                  else
@@ -179,10 +180,10 @@ namespace VtrEffects.Controllers
                     seguidores.Add(seguidor);
                     await _cache.SetAsync($"seguidoresUsuario-{usuarioId}", JsonConvert.SerializeObject(seguidores));
 
-
+                    return Ok(true);
                 }
 
-                return Ok(true);
+     
                 }
                 else
                  {
