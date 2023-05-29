@@ -22,10 +22,15 @@ namespace VtrEffectsDados.Data.Repositorio
 
         public async Task<bool> UsuarioExiste(Usuario usuario)
         {
-            var usuarioDb=     context.Usuario.Where(x => x.nome.Equals(usuario.nome) && x.email.Equals(usuario.email));
+            var usuarioDb = context.Usuario.Where(x => x.nome.Equals(usuario.nome) && x.email.Equals(usuario.email));
             return usuarioDb.Any();
         }
 
+        public async Task<bool> UsuarioExisteById(int usuarioId)
+        {
+            var id = context.Usuario.Where(u => u.id == usuarioId).Select(u => new {u.id}).FirstOrDefault();
+            return id == null ? false : true;
+        }
 
         public async Task<bool> UsuarioExisteByEmail(string email)
         {

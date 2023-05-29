@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using VtrEffects.Caching;
@@ -38,13 +39,33 @@ namespace VtrEffects.Controllers
         }
 
         [HttpGet("{tipoProdutoId}")]
-        public async Task<ActionResult<TipoProduto>> GetProdutoById(int tipoProdutoId)
+        public async Task<ActionResult<TipoProdutoDTO>> GetProdutoById(int tipoProdutoId)
         {
-            var tipoProduto = tipoProdutoRepository.GetById(tipoProdutoId);
-            if (tipoProduto is null)
-                return BadRequest("Produto não encontrado.");
+            var produtoCache = await _cache.GetAsync($"tipoProduto-{tipoProdutoId}");
+            TipoProdutoDTO? tipoProdutoDTO;
 
-            return Ok(tipoProduto);
+            if (!string.IsNullOrEmpty(produtoCache))
+            {
+                tipoProdutoDTO = JsonConvert.DeserializeObject<TipoProdutoDTO>(produtoCache);
+            }
+            else
+            {
+                var tipoProduto = tipoProdutoRepository.GetById(tipoProdutoId);
+                if (tipoProduto is null)
+                    return BadRequest("Produto não encontrado.");
+
+                tipoProdutoDTO = new TipoProdutoDTO();
+                tipoProdutoDTO.produto = tipoProduto;
+
+                var fotoCatalogo = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(tipoProduto.id, 1).Result.imagem;
+                var fotoPng = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(tipoProduto.id, 2).Result.imagem;
+
+                tipoProdutoDTO.fotoCatalogo = fotoCatalogo;
+                tipoProdutoDTO.fotoPng = fotoPng != null ? fotoPng : fotoCatalogo;
+            }
+
+            await _cache.SetAsync($"tipoProduto-{tipoProdutoId}", JsonConvert.SerializeObject(tipoProdutoDTO));
+            return Ok(tipoProdutoDTO);
         }
 
         [HttpGet]
@@ -73,26 +94,27 @@ namespace VtrEffects.Controllers
                     var fotoCatalogo = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.id, 1).Result.imagem;
                     var fotoPng = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.id, 2).Result.imagem;
 
-                    if (fotoCatalogo != null)
-                    {
-                        produtoDTO.fotoCatalogo = fotoCatalogo;
-                        if (fotoPng != null)
-                        {
-                            produtoDTO.fotoPng = fotoPng;
-                        }
-                        else
-                        {
-                            produtoDTO.fotoPng = fotoCatalogo;
-                        }
-                    }
+                    produtoDTO.fotoCatalogo = fotoCatalogo;
+                    produtoDTO.fotoPng = fotoPng != null ? fotoPng : fotoCatalogo;
+
+                    //if (fotoCatalogo != null)
+                    //{
+                    //    produtoDTO.fotoCatalogo = fotoCatalogo;
+                    //    if (fotoPng != null)
+                    //    {
+                    //        produtoDTO.fotoPng = fotoPng;
+                    //    }
+                    //    else
+                    //    {
+                    //        produtoDTO.fotoPng = fotoCatalogo;
+                    //    }
+                    //}
+
                     produtosDto.Add(produtoDTO);
                 }
 
-
                 if (produtos == null)
                     return BadRequest("Nenhum produto encontrado");
-
-
             }
 
             await _cache.SetAsync("Produtos", JsonConvert.SerializeObject(produtosDto));
@@ -102,67 +124,66 @@ namespace VtrEffects.Controllers
         [HttpGet("ProdutosUsuario/{usuarioId}")]
         public async Task<ActionResult<IList<ProdutoDTO>>> GetAllProdutosByUsuario(int usuarioId)
         {
-            var usuario = usuarioRepository.GetById(usuarioId);
-            if (usuario is null)
+            bool usuario = usuarioRepository.UsuarioExisteById(usuarioId).Result; //Consulta criada apenas para verificar existência de usuário, mais leve em relação à GetByUserId
+            if (!usuario)
                 return BadRequest("Usuário não encontrado.");
 
-            var email = User.Claims.Single(x => x.Type == ClaimTypes.Name).Value; //pegando usuario logado
-            //var produtosCache = await _cache.GetAsync("MeusProdutos");
-            IList<ProdutoDTO>? produtos;
-            //if (usuario.email == email)
-            //{
+            //var email = User.Claims.Single(x => x.Type == ClaimTypes.Name).Value; //pegando usuario logado
 
-            //    if (!string.IsNullOrWhiteSpace(produtosCache))
-            //    {
+            var produtosCache = await _cache.GetAsync($"produtosUsuario-{usuarioId}");
+            IList<ProdutoDTO> prods = new List<ProdutoDTO>();
 
-            //        produtos = JsonConvert.DeserializeObject<IList<ProdutoDTO>>(produtosCache);
-            //        return Ok(produtos);
+            var produtosUsuario = produtoClienteRepository.GetAllSerialTipoProdutoByUsuario(usuarioId).Result; //Consulta mais leve apenas para verificar os produtos do usuário
 
-            //    }
-            //    else
-            //    {
-            //        var produtoClienteList = produtoClienteRepository.GetAllByUsuario(usuarioId).Result;
+            if (!string.IsNullOrEmpty(produtosCache))
+            {
+                prods = JsonConvert.DeserializeObject<IList<ProdutoDTO>>(produtosCache);
 
-            //        IList<ProdutoDTO> prods = new List<ProdutoDTO>();
+                prods = prods.Where(p => produtosUsuario.Where(pr => pr.prop1 == p.serial).ToList().Count > 0).ToList(); //Remove os elementos do cache que não estão mais na lista de produtos do usuário
 
-            //        foreach (var produtoCliente in produtoClienteList)
-            //        {
-            //            ProdutoDTO produto = new ProdutoDTO();
-            //            produto.serial = produtoCliente.produto.serial;
-            //            produto.nome = produtoCliente.produto.tipoProduto.nome;
-            //            produto.descricao = produtoCliente.produto.tipoProduto.descricao;
-            //            produto.fotoProduto = produtoCliente.produto.tipoProduto.fotoProduto;
+                IList<string> adicionarCache = produtosUsuario.Where(p => prods.Where(pr => pr.serial == p.prop1).ToList().Count == 0) //Verifica quais elementos estão na lista de produtos do usuário e não estão no cache
+                                                              .Select(p => p.prop1)
+                                                              .ToList();
 
-            //            prods.Add(produto);
-            //        }
-
-            //        await _cache.SetAsync("MeusProdutos", JsonConvert.SerializeObject(prods));
-            //        return Ok(prods);
-
-            //    }
-
-
-            //}
-            //else
-            //{
-                var produtoClienteList = produtoClienteRepository.GetAllByUsuario(usuarioId).Result;
-
-                IList<ProdutoDTO> prods = new List<ProdutoDTO>();
-
-                foreach (var produtoCliente in produtoClienteList)
+                if(adicionarCache.Count > 0)
                 {
-                    ProdutoDTO produto = new ProdutoDTO();
-                    produto.serial = produtoCliente.produto.serial;
-                    produto.nome = produtoCliente.produto.tipoProduto.nome;
-                    produto.descricao = produtoCliente.produto.tipoProduto.descricao;
-                    //produto.fotoProduto = produtoCliente.produto.tipoProduto.fotoProduto;
+                    foreach(string serial in adicionarCache)
+                    {
+                        int tipoProdutoId = produtosUsuario.Where(p => p.prop1 == serial).Select(p => p.prop2).FirstOrDefault();
+                        var getProduto = await GetProdutoById(tipoProdutoId);
+                        var getProdutoResult = (OkObjectResult)getProduto.Result;
+                        var tipoProdutoDTO = (TipoProdutoDTO)getProdutoResult.Value;
 
-                    //produto.imagens = produtoCliente.produto.tipoProduto.imagens; (Não está puxando as imagens)
-                    produto.fotoProduto = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produtoCliente.produto.tipoProduto.id,2).Result.imagem;
+                        ProdutoDTO produtoDTO = new ProdutoDTO();
+                        produtoDTO.serial = serial;
+                        produtoDTO.nome = tipoProdutoDTO.produto.nome;
+                        produtoDTO.descricao = tipoProdutoDTO.produto.descricao;
+                        produtoDTO.fotoProduto = tipoProdutoDTO.fotoCatalogo;
 
-                    prods.Add(produto);
+                        prods.Add(produtoDTO);
+                    }
                 }
-                return Ok(prods);
+            }
+            else
+            {
+                foreach (var prodUsuario in produtosUsuario)
+                {
+                    var getProduto = await GetProdutoById(prodUsuario.prop2);
+                    var getProdutoResult = (OkObjectResult)getProduto.Result;
+                    var tipoProdutoDTO = (TipoProdutoDTO)getProdutoResult.Value;
+
+                    ProdutoDTO produtoDTO = new ProdutoDTO();
+                    produtoDTO.serial = prodUsuario.prop1;
+                    produtoDTO.nome = tipoProdutoDTO.produto.nome;
+                    produtoDTO.descricao = tipoProdutoDTO.produto.descricao;
+                    produtoDTO.fotoProduto = tipoProdutoDTO.fotoCatalogo;
+
+                    prods.Add(produtoDTO);
+                }
+            }
+
+            await _cache.SetAsync($"produtosUsuario-{usuarioId}", JsonConvert.SerializeObject(prods));
+            return Ok(prods);
         }
 
         [HttpPost]
@@ -202,6 +223,48 @@ namespace VtrEffects.Controllers
 
             return Ok(produtoDTO);
             //return new CreatedAtRouteResult("GetProdutoByÌd", new { id = produtoCliente.produtoid }, produtoCliente);
+        }
+
+        [HttpPost("TransferenciaProduto")]
+        public async Task<ActionResult<ProdutoDTO>> TransferirProduto(TransferenciaDTO transferenciaDTO)
+        {
+            if (transferenciaDTO is null)
+                return BadRequest("Dados para transferência não encontrados.");
+
+            bool usuarioExiste = usuarioRepository.UsuarioExisteById(transferenciaDTO.idUsuarioOrigem).Result;
+            if (!usuarioExiste)
+                return BadRequest("Usuário de origem não encontrado.");
+
+            usuarioExiste = usuarioRepository.UsuarioExisteById(transferenciaDTO.idUsuarioDestino).Result;
+            if (!usuarioExiste)
+                return BadRequest("Usuário de destino não encontrado.");
+
+            var produto = produtoRepository.GetBySerial(transferenciaDTO.serial).Result;
+            if (produto is null)
+                return BadRequest("Produto não encontrado.");
+
+            ProdutoCliente produtoCliente = produtoClienteRepository.GetBySerial(produto.serial).Result;
+            produtoCliente.ativo = false;
+            await produtoClienteRepository.UpdateAsync(produtoCliente);
+
+            var usuarioDestino = usuarioRepository.GetById(transferenciaDTO.idUsuarioDestino);
+            ProdutoCliente produtoClienteNovo = new ProdutoCliente();
+            produtoClienteNovo.produtoid = produtoCliente.produtoid;
+            produtoClienteNovo.produto = produtoCliente.produto;
+            produtoClienteNovo.usuarioid = usuarioDestino.id;
+            produtoClienteNovo.usuario = usuarioDestino;
+            produtoClienteNovo.ativo = true;
+            produtoClienteNovo.primeiroComprador = false;
+            await produtoClienteRepository.SaveAsync(produtoClienteNovo);
+
+            ProdutoDTO produtoDTO = new ProdutoDTO();
+            produtoDTO.serial = produto.serial;
+            produtoDTO.nome = produto.tipoProduto.nome;
+            produtoDTO.descricao = produto.tipoProduto.descricao;
+            //produtoDTO.fotoProduto = produto.tipoProduto.fotoProduto;
+            //  produtoDTO.fotoProduto = tipoProdutoImagemRepository.GetAllByTipoProduto(produto.tipoProduto.id).Result.ToList();
+
+            return Ok(produtoDTO);
         }
     }
 }
