@@ -8,7 +8,16 @@ namespace VtrEffectsDados.Data.Repositorio
     {
         public TipoProdutoRepository(ContextVTR contextoBI) : base(contextoBI)
         {
-
+            
+        }
+        public async Task<List<int>> GetAllIds()
+        {
+            return context.TipoProduto
+                    .OrderBy(t => t.id)
+                    .Select(t => new { t.id })
+                    .ToList()
+                    .Select(t => t.id)
+                    .ToList();
         }
     }
 }

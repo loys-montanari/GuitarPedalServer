@@ -15,6 +15,7 @@ namespace VtrEffects.Dominio.Interfaces
         Task<int> GetIdByEmail(string email);
         Task<bool> UsuarioExisteByEmail(string email);
         Task<bool> UsuarioExiste(Usuario usuario);
+        Task<bool> UsuarioExisteById(int usuarioId);
 
         Task<Usuario> ValidarUsuario(string email, string senha);
 
