@@ -1,11 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using VtrEffects.Dominio.Interfaces;
+using VtrEffects.Dominio.Modelo;
+using VtrEffects.DTO;
+using VtrEffects.Helpers;
 using VtrEffects.Models;
 using VtrEffects.Services;
 
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+
+
 namespace VtrEffects.Controllers
 {
+
+
+    [ApiController]
+    [Route("api/[controller]")]
     public class NotificationsController : ControllerBase
     {
         readonly INotificationService _notificationService;
@@ -13,15 +26,16 @@ namespace VtrEffects.Controllers
         public NotificationsController(INotificationService notificationService)
         {
             _notificationService = notificationService;
+
         }
 
         [HttpPut]
-        [Route("api/[controller]/installations")]
+        [Route("installations")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
         public async Task<IActionResult> UpdateInstallation(
-    [Required] DeviceInstallation deviceInstallation)
+        [Required] DeviceInstallation deviceInstallation)
         {
             var success = await _notificationService
                 .CreateOrUpdateInstallationAsync(deviceInstallation, HttpContext.RequestAborted);
@@ -33,7 +47,7 @@ namespace VtrEffects.Controllers
         }
 
         [HttpDelete()]
-        [Route("api/[controller]/installations/{installationId}")]
+        [Route("installations/{installationId}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
@@ -50,17 +64,16 @@ namespace VtrEffects.Controllers
         }
 
         [HttpPost]
-        [Route("api/[controller]/requests")]
+        [Route("requests")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
-        public async Task<IActionResult> RequestPush(
-            [Required] NotificationRequest notificationRequest)
+        public async Task<IActionResult> RequestPush(NotificationRequest notificationRequest)
         {
             if ((notificationRequest.Silent &&
-                string.IsNullOrWhiteSpace(notificationRequest?.Action)) ||
-                (!notificationRequest.Silent &&
-                string.IsNullOrWhiteSpace(notificationRequest?.Text)))
+            string.IsNullOrWhiteSpace(notificationRequest?.Action)) ||
+            (!notificationRequest.Silent &&
+            string.IsNullOrWhiteSpace(notificationRequest?.Text)))
                 return new BadRequestResult();
 
             var success = await _notificationService
@@ -71,5 +84,7 @@ namespace VtrEffects.Controllers
 
             return new OkResult();
         }
+
+        
     }
 }
