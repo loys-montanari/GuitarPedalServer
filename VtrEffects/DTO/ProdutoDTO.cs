@@ -8,5 +8,7 @@ namespace VtrEffects.DTO
         public string nome { get; set; }
         public string descricao { get; set; }
         public string fotoProduto { get; set; }
+
+        public string fotoPng { get; set; }
     }
 }
