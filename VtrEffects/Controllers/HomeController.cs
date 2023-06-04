@@ -159,6 +159,7 @@ namespace VtrEffects.Controllers
                         produtoDTO.nome = tipoProdutoDTO.produto.nome;
                         produtoDTO.descricao = tipoProdutoDTO.produto.descricao;
                         produtoDTO.fotoProduto = tipoProdutoDTO.fotoCatalogo;
+                        produtoDTO.fotoPng = tipoProdutoDTO.fotoPng;
 
                         prods.Add(produtoDTO);
                     }
@@ -177,6 +178,7 @@ namespace VtrEffects.Controllers
                     produtoDTO.nome = tipoProdutoDTO.produto.nome;
                     produtoDTO.descricao = tipoProdutoDTO.produto.descricao;
                     produtoDTO.fotoProduto = tipoProdutoDTO.fotoCatalogo;
+                    produtoDTO.fotoPng = tipoProdutoDTO.fotoPng;
 
                     prods.Add(produtoDTO);
                 }
