@@ -140,6 +140,7 @@ namespace VtrEffects.Controllers
                     produtoDTO.nome = tipoProdutoDTO.produto.nome;
                     produtoDTO.descricao = tipoProdutoDTO.produto.descricao;
                     produtoDTO.fotoProduto = tipoProdutoDTO.fotoCatalogo;
+                    produtoDTO.fotoPng = tipoProdutoDTO.fotoPng;
 
                     prods.Add(produtoDTO);
                 }
@@ -211,7 +212,7 @@ namespace VtrEffects.Controllers
             if (!usuarioExiste)
                 return BadRequest("Usuário de origem não encontrado.");
 
-            usuarioExiste = usuarioRepository.GetByEmail(transferenciaDTO.emailUsuarioDestino).Result == null ? false : true;
+            usuarioExiste = usuarioRepository.GetByEmail(transferenciaDTO.emailUsuarioDestino).Result == null?  false  : true; 
             if (!usuarioExiste)
                 return BadRequest("Usuário de destino não encontrado.");
 

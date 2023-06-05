@@ -82,6 +82,7 @@ namespace VtrEffects.Controllers
 
                         //produto.imagens = produtoCliente.produto.tipoProduto.imagens; (Não está puxando as imagens)
                         produto.fotoProduto = tipProdutoImagemRep.GetByTipoProdutoAndTipoImagem(produtoCliente.produto.tipoProduto.id, 2).Result.imagem;
+                        produto.fotoPng = tipProdutoImagemRep.GetByTipoProdutoAndTipoImagem(produtoCliente.produto.tipoProduto.id, 1).Result.imagem;
 
                         perfil.produtos.Add(produto);
                     }
