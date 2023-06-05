@@ -237,7 +237,7 @@ namespace VtrEffects.Controllers
             if (!usuarioExiste)
                 return BadRequest("Usuário de origem não encontrado.");
 
-            usuarioExiste = usuarioRepository.UsuarioExisteById(transferenciaDTO.idUsuarioDestino).Result;
+            usuarioExiste = usuarioRepository.GetByEmail(transferenciaDTO.emailUsuarioDestino).Result == null?  false  : true; 
             if (!usuarioExiste)
                 return BadRequest("Usuário de destino não encontrado.");
 
@@ -249,7 +249,7 @@ namespace VtrEffects.Controllers
             produtoCliente.ativo = false;
             await produtoClienteRepository.UpdateAsync(produtoCliente);
 
-            var usuarioDestino = usuarioRepository.GetById(transferenciaDTO.idUsuarioDestino);
+            var usuarioDestino = usuarioRepository.GetByEmail(transferenciaDTO.emailUsuarioDestino).Result;
             ProdutoCliente produtoClienteNovo = new ProdutoCliente();
             produtoClienteNovo.produtoid = produtoCliente.produtoid;
             produtoClienteNovo.produto = produtoCliente.produto;
