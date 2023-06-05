@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
+using StackExchange.Redis;
 using System.Security.Claims;
 using VtrEffects.Caching;
 using VtrEffects.Dominio.Interfaces;
@@ -97,19 +98,6 @@ namespace VtrEffects.Controllers
                     produtoDTO.fotoCatalogo = fotoCatalogo;
                     produtoDTO.fotoPng = fotoPng != null ? fotoPng : fotoCatalogo;
 
-                    //if (fotoCatalogo != null)
-                    //{
-                    //    produtoDTO.fotoCatalogo = fotoCatalogo;
-                    //    if (fotoPng != null)
-                    //    {
-                    //        produtoDTO.fotoPng = fotoPng;
-                    //    }
-                    //    else
-                    //    {
-                    //        produtoDTO.fotoPng = fotoCatalogo;
-                    //    }
-                    //}
-
                     produtosDto.Add(produtoDTO);
                 }
 
@@ -133,40 +121,14 @@ namespace VtrEffects.Controllers
             var produtosCache = await _cache.GetAsync($"produtosUsuario-{usuarioId}");
             IList<ProdutoDTO> prods = new List<ProdutoDTO>();
 
-            var produtosUsuario = produtoClienteRepository.GetAllSerialTipoProdutoByUsuario(usuarioId).Result; //Consulta mais leve apenas para verificar os produtos do usuário
-
             if (!string.IsNullOrEmpty(produtosCache))
             {
                 prods = JsonConvert.DeserializeObject<IList<ProdutoDTO>>(produtosCache);
-
-                prods = prods.Where(p => produtosUsuario.Where(pr => pr.prop1 == p.serial).ToList().Count > 0).ToList(); //Remove os elementos do cache que não estão mais na lista de produtos do usuário
-
-                IList<string> adicionarCache = produtosUsuario.Where(p => prods.Where(pr => pr.serial == p.prop1).ToList().Count == 0) //Verifica quais elementos estão na lista de produtos do usuário e não estão no cache
-                                                              .Select(p => p.prop1)
-                                                              .ToList();
-
-                if(adicionarCache.Count > 0)
-                {
-                    foreach(string serial in adicionarCache)
-                    {
-                        int tipoProdutoId = produtosUsuario.Where(p => p.prop1 == serial).Select(p => p.prop2).FirstOrDefault();
-                        var getProduto = await GetProdutoById(tipoProdutoId);
-                        var getProdutoResult = (OkObjectResult)getProduto.Result;
-                        var tipoProdutoDTO = (TipoProdutoDTO)getProdutoResult.Value;
-
-                        ProdutoDTO produtoDTO = new ProdutoDTO();
-                        produtoDTO.serial = serial;
-                        produtoDTO.nome = tipoProdutoDTO.produto.nome;
-                        produtoDTO.descricao = tipoProdutoDTO.produto.descricao;
-                        produtoDTO.fotoProduto = tipoProdutoDTO.fotoCatalogo;
-                        produtoDTO.fotoPng = tipoProdutoDTO.fotoPng;
-
-                        prods.Add(produtoDTO);
-                    }
-                }
             }
             else
             {
+                var produtosUsuario = produtoClienteRepository.GetAllSerialTipoProdutoByUsuario(usuarioId).Result; //Consulta mais leve apenas para verificar os produtos do usuário
+
                 foreach (var prodUsuario in produtosUsuario)
                 {
                     var getProduto = await GetProdutoById(prodUsuario.prop2);
@@ -220,11 +182,24 @@ namespace VtrEffects.Controllers
             produtoDTO.serial = produto.serial;
             produtoDTO.nome = produto.tipoProduto.nome;
             produtoDTO.descricao = produto.tipoProduto.descricao;
-            //produtoDTO.fotoProduto = produto.tipoProduto.fotoProduto;
-          //  produtoDTO.fotoProduto = tipoProdutoImagemRepository.GetAllByTipoProduto(produto.tipoProduto.id).Result.ToList();
 
+            //Caso o usuário tenha seus produtos no cache, adiciona produto que acabou de ser cadastrado
+            var produtosCache = await _cache.GetAsync($"produtosUsuario-{usuario.id}");
+            IList<ProdutoDTO> prods = new List<ProdutoDTO>();
+
+            if (!string.IsNullOrEmpty(produtosCache))
+            {
+                prods = JsonConvert.DeserializeObject<IList<ProdutoDTO>>(produtosCache);
+
+                var fotoCatalogo = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.tipoProduto.id, 1).Result.imagem;
+                produtoDTO.fotoProduto = fotoCatalogo;
+
+                prods.Add(produtoDTO); //Adiciona o produto cadastrado na lista de produtos do usuário no cache.
+                
+            }
+
+            await _cache.SetAsync($"produtosUsuario-{usuario.id}", JsonConvert.SerializeObject(prods));
             return Ok(produtoDTO);
-            //return new CreatedAtRouteResult("GetProdutoByÌd", new { id = produtoCliente.produtoid }, produtoCliente);
         }
 
         [HttpPost("TransferenciaProduto")]
@@ -263,8 +238,27 @@ namespace VtrEffects.Controllers
             produtoDTO.serial = produto.serial;
             produtoDTO.nome = produto.tipoProduto.nome;
             produtoDTO.descricao = produto.tipoProduto.descricao;
-            //produtoDTO.fotoProduto = produto.tipoProduto.fotoProduto;
-            //  produtoDTO.fotoProduto = tipoProdutoImagemRepository.GetAllByTipoProduto(produto.tipoProduto.id).Result.ToList();
+            produtoDTO.fotoProduto = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.tipoProduto.id, 1).Result.imagem;
+
+            //Caso o usuário de origem tenha seus produtos no cache, remove o produto que acabou de ser transferido
+            var produtosUsuarioOrigem = await _cache.GetAsync($"produtosUsuario-{transferenciaDTO.idUsuarioOrigem}");
+            IList<ProdutoDTO> prodsUsuarioOrigem = new List<ProdutoDTO>();
+            if (!string.IsNullOrEmpty(produtosUsuarioOrigem))
+            {
+                prodsUsuarioOrigem = JsonConvert.DeserializeObject<IList<ProdutoDTO>>(produtosUsuarioOrigem);
+                prodsUsuarioOrigem = prodsUsuarioOrigem.Where(p => p.serial != produtoDTO.serial).ToList(); //Remove o produto cadastrado na lista de produtos do usuário no cache.
+            }
+            await _cache.SetAsync($"produtosUsuario-{transferenciaDTO.idUsuarioOrigem}", JsonConvert.SerializeObject(prodsUsuarioOrigem));
+
+            //Caso o usuário de destino tenha seus produtos no cache, adiciona o produto que acabou de ser transferido
+            var produtosUsuarioDestino = await _cache.GetAsync($"produtosUsuario-{usuarioDestino.id}");
+            IList<ProdutoDTO> prodsUsuarioDestino = new List<ProdutoDTO>();
+            if (!string.IsNullOrEmpty(produtosUsuarioDestino))
+            {
+                prodsUsuarioDestino = JsonConvert.DeserializeObject<IList<ProdutoDTO>>(produtosUsuarioDestino);
+                prodsUsuarioDestino.Add(produtoDTO); //Adiciona o produto cadastrado na lista de produtos do usuário no cache.
+            }
+            await _cache.SetAsync($"produtosUsuario-{usuarioDestino.id}", JsonConvert.SerializeObject(prodsUsuarioDestino));
 
             return Ok(produtoDTO);
         }
