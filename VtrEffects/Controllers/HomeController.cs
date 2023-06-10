@@ -239,6 +239,7 @@ namespace VtrEffects.Controllers
             produtoDTO.nome = produto.tipoProduto.nome;
             produtoDTO.descricao = produto.tipoProduto.descricao;
             produtoDTO.fotoProduto = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.tipoProduto.id, 1).Result.imagem;
+            produtoDTO.fotoPng = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.tipoProduto.id, 2).Result.imagem;
 
             //Caso o usuário de origem tenha seus produtos no cache, remove o produto que acabou de ser transferido
             var produtosUsuarioOrigem = await _cache.GetAsync($"produtosUsuario-{transferenciaDTO.idUsuarioOrigem}");
