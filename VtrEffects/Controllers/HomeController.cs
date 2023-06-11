@@ -193,6 +193,7 @@ namespace VtrEffects.Controllers
 
                 var fotoCatalogo = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.tipoProduto.id, 1).Result.imagem;
                 produtoDTO.fotoProduto = fotoCatalogo;
+                produtoDTO.fotoPng = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.tipoProduto.id, 2).Result.imagem;
 
                 prods.Add(produtoDTO); //Adiciona o produto cadastrado na lista de produtos do usuário no cache.
                 
