@@ -263,5 +263,62 @@ namespace VtrEffects.Controllers
 
             return Ok(produtoDTO);
         }
+
+        [HttpGet("ProdutosBySerial/{serial}")]
+        public async Task<ActionResult<ProdutoDTO>> GetBySerial(string serial)
+        {
+            if (serial is null)
+                return BadRequest("Serial está em branco.");
+
+
+            var produtoCache = await _cache.GetAsync(serial);
+            var produto = new Produto();
+            ProdutoDTO produtoDTO = new ProdutoDTO();
+            if (string.IsNullOrWhiteSpace(produtoCache))
+            {
+                produto = produtoRepository.GetBySerial(serial).Result;
+
+                if (produto is null)
+                    return BadRequest("Produto não encontrado, verifique o serial digitado.");
+
+
+                
+                produtoDTO.serial = produto.serial;
+                produtoDTO.nome = produto.tipoProduto.nome;
+                produtoDTO.descricao = produto.tipoProduto.descricao;
+                produtoDTO.fotoProduto = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.tipoProduto.id, 1).Result.imagem;
+                produtoDTO.fotoPng = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.tipoProduto.id, 2).Result.imagem;
+
+                await _cache.SetAsync(serial, JsonConvert.SerializeObject(produtoDTO));
+
+            }
+            else
+            {
+                produtoDTO =  JsonConvert.DeserializeObject<ProdutoDTO>(produtoCache);
+            }
+
+            var email = User.Claims.Single(x => x.Type == ClaimTypes.Name).Value;
+
+            var userlogado = await usuarioRepository.GetByEmail(email);
+            ProdutoCliente produtoCliente = produtoClienteRepository.GetBySerial(produtoDTO.serial).Result;
+            if(produtoCliente != null && produtoCliente.usuarioid == userlogado.id)
+                return BadRequest("Este produto já está cadastrado e ativo como seu.");
+
+            if (produtoCliente != null && produtoCliente.usuarioid != userlogado.id)
+                return BadRequest("Este produto já está cadastrado e ativo para outro usuário.");
+
+
+            return Ok(produtoDTO);
+
+            //ProdutoCliente produtoClienteNovo = new ProdutoCliente();
+            //produtoClienteNovo.produtoid = produto.id;
+            //produtoClienteNovo.produto = produto;
+            //produtoClienteNovo.usuarioid = userlogado.id;
+            //produtoClienteNovo.usuario = userlogado;
+            //produtoClienteNovo.ativo = true;
+            //produtoClienteNovo.primeiroComprador = true;
+            //await produtoClienteRepository.SaveAsync(produtoClienteNovo);
+
+        }
     }
 }
