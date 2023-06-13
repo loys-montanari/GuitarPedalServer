@@ -54,16 +54,28 @@ namespace VtrEffects.Controllers
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut]
-        public async Task<ActionResult<List<Usuario>>> UpdateUser(Usuario user)
+        public async Task<ActionResult<Usuario>> UpdateUser(Usuario user)
         {
             var usuario = usuarioRep.GetById(user.id); 
             if (usuario == null)
                 return BadRequest("Usuario não encontrada.");
 
-            usuario = user;
-            await usuarioRep.UpdateAsync(user);
+            if(!String.IsNullOrEmpty(user.nome))
+                usuario.nome = user.nome;
+            if (!String.IsNullOrEmpty(user.email))
+                usuario.email = user.email;
+            if (!String.IsNullOrEmpty(user.senha))
+                usuario.senha = user.senha;
+            if (!String.IsNullOrEmpty(user.foto))
+                usuario.foto = user.foto;
+            if (!String.IsNullOrEmpty(user.bio))
+                usuario.bio = user.bio;
+            if (!String.IsNullOrEmpty(user.instrumentoPrincipal))
+                usuario.instrumentoPrincipal = user.instrumentoPrincipal;
 
-            return Ok(usuarioRep.GetByEmail(usuario.email));
+            await usuarioRep.UpdateAsync(usuario);
+
+            return Ok(usuarioRep.GetByEmail(usuario.email).Result);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
