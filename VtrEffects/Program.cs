@@ -80,7 +80,7 @@ builder.Services.AddStackExchangeRedisCache(o =>
     o.InstanceName = "instance";
 
     o.Configuration = "vtreffects.redis.cache.windows.net:6380,password=uWZAjCpp6UgREOKhxcOwWm87ySLvIxH7PAzCaDaWbjU=,ssl=True,abortConnect=False";
-   // o.Configuration = "localhost:6379";
+    //o.Configuration = "localhost:6379";
 
 });
 

@@ -9,6 +9,7 @@ namespace VtrEffects.Dominio.Interfaces
         Task<bool> VerificarCadastro(string serial);
         Task<ProdutoCliente> GetBySerial(string serial);
         Task<IList<ProdutoCliente>> GetAllByUsuario(int usuarioId);
-        Task<IList<Generic2<string, int>>> GetAllSerialTipoProdutoByUsuario(int usuarioId); //<serial, tipoProduto>
+        Task<IList<Generic3<string, int, DateTime?>>> GetAllSerialTipoProdutoByUsuario(int usuarioId); //<serial, tipoProduto, dataCompra>
+        Task<string?> GetPrazoGarantia(string serial);
     }
 }

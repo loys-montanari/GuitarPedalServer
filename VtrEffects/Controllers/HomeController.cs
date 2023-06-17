@@ -9,6 +9,7 @@ using VtrEffects.Dominio.Interfaces;
 using VtrEffects.Dominio.Modelo;
 using VtrEffects.DTO;
 using VtrEffectsDados.Data.Context;
+using VtrEffectsDados.Data.Repositorio;
 
 namespace VtrEffects.Controllers
 {
@@ -121,7 +122,7 @@ namespace VtrEffects.Controllers
             var produtosCache = await _cache.GetAsync($"produtosUsuario-{usuarioId}");
             IList<ProdutoDTO> prods = new List<ProdutoDTO>();
 
-            if (!string.IsNullOrEmpty(produtosCache))
+            if (!string.IsNullOrEmpty(produtosCache) && produtosCache != "[]")
             {
                 prods = JsonConvert.DeserializeObject<IList<ProdutoDTO>>(produtosCache);
             }
@@ -141,6 +142,8 @@ namespace VtrEffects.Controllers
                     produtoDTO.descricao = tipoProdutoDTO.produto.descricao;
                     produtoDTO.fotoProduto = tipoProdutoDTO.fotoCatalogo;
                     produtoDTO.fotoPng = tipoProdutoDTO.fotoPng;
+                    produtoDTO.dataCompra = prodUsuario.prop3.Value.ToShortDateString();
+                    produtoDTO.dataGarantia = produtoClienteRepository.GetPrazoGarantia(prodUsuario.prop1).Result;
 
                     prods.Add(produtoDTO);
                 }
@@ -175,13 +178,16 @@ namespace VtrEffects.Controllers
             produtoCliente.primeiroComprador = true; // O que definir aqui?
             produtoCliente.usuarioid = usuario.id;
             produtoCliente.usuario = usuario;
-
+            produtoCliente.dataCompra = ProdutoClienteRepository.GetRandomDate();
+            
             await produtoClienteRepository.SaveAsync(produtoCliente);
 
             ProdutoDTO produtoDTO = new ProdutoDTO();
             produtoDTO.serial = produto.serial;
             produtoDTO.nome = produto.tipoProduto.nome;
             produtoDTO.descricao = produto.tipoProduto.descricao;
+            produtoDTO.dataCompra = produtoCliente.dataCompra.Value.ToShortDateString();
+            produtoDTO.dataGarantia = produtoClienteRepository.GetPrazoGarantia(produto.serial).Result;
 
             //Caso o usuário tenha seus produtos no cache, adiciona produto que acabou de ser cadastrado
             var produtosCache = await _cache.GetAsync($"produtosUsuario-{usuario.id}");
@@ -233,6 +239,7 @@ namespace VtrEffects.Controllers
             produtoClienteNovo.usuario = usuarioDestino;
             produtoClienteNovo.ativo = true;
             produtoClienteNovo.primeiroComprador = false;
+            produtoClienteNovo.dataCompra = DateTime.Now;
             await produtoClienteRepository.SaveAsync(produtoClienteNovo);
 
             ProdutoDTO produtoDTO = new ProdutoDTO();
@@ -241,6 +248,8 @@ namespace VtrEffects.Controllers
             produtoDTO.descricao = produto.tipoProduto.descricao;
             produtoDTO.fotoProduto = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.tipoProduto.id, 1).Result.imagem;
             produtoDTO.fotoPng = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.tipoProduto.id, 2).Result.imagem;
+            produtoDTO.dataCompra = produtoClienteNovo.dataCompra.Value.ToShortDateString();
+            produtoDTO.dataGarantia = produtoClienteRepository.GetPrazoGarantia(produto.serial).Result;
 
             //Caso o usuário de origem tenha seus produtos no cache, remove o produto que acabou de ser transferido
             var produtosUsuarioOrigem = await _cache.GetAsync($"produtosUsuario-{transferenciaDTO.idUsuarioOrigem}");
@@ -281,9 +290,7 @@ namespace VtrEffects.Controllers
 
                 if (produto is null)
                     return BadRequest("Produto não encontrado, verifique o serial digitado.");
-
-
-                
+         
                 produtoDTO.serial = produto.serial;
                 produtoDTO.nome = produto.tipoProduto.nome;
                 produtoDTO.descricao = produto.tipoProduto.descricao;
@@ -291,7 +298,6 @@ namespace VtrEffects.Controllers
                 produtoDTO.fotoPng = tipoProdutoImagemRepository.GetByTipoProdutoAndTipoImagem(produto.tipoProduto.id, 2).Result.imagem;
 
                 await _cache.SetAsync(serial, JsonConvert.SerializeObject(produtoDTO));
-
             }
             else
             {
