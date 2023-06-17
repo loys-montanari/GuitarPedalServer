@@ -17,5 +17,6 @@ namespace VtrEffects.Dominio.Modelo
 
         public bool ativo { get; set; }
         public bool primeiroComprador { get; set; }
+        public DateTime? dataCompra { get; set; }
     }
 }
