@@ -12,5 +12,6 @@ namespace VtrEffects.DTO
         public string fotoPng { get; set; }
         public string? dataCompra { get; set; }
         public string? dataGarantia { get; set; }
+        public string? linkManual { get; set; }
     }
 }

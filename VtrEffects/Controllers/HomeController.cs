@@ -144,6 +144,7 @@ namespace VtrEffects.Controllers
                     produtoDTO.fotoPng = tipoProdutoDTO.fotoPng;
                     produtoDTO.dataCompra = prodUsuario.prop3.Value.ToShortDateString();
                     produtoDTO.dataGarantia = produtoClienteRepository.GetPrazoGarantia(prodUsuario.prop1).Result;
+                    produtoDTO.linkManual = tipoProdutoDTO.produto.linkManual;
 
                     prods.Add(produtoDTO);
                 }
