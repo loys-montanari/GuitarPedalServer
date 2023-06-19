@@ -115,9 +115,9 @@ namespace VtrEffects.Controllers
             UsuarioInfoDTO retorno = new UsuarioInfoDTO();
             retorno.usuario = usuarioRep.GetByEmail(user.email).Result;
 
-            retorno.seguidores = seguidoresRep.GetAllByUsuarioAsync(retorno.usuario.id).Result;
+            retorno.seguidores = seguidoresRep.GetAllByUsuarioAsync(retorno.usuario.id).Result.Count;
 
-            retorno.seguindo = seguidoresRep.GetAllSeguidosAsync(retorno.usuario.id).Result;
+            retorno.seguindo = seguidoresRep.GetAllSeguidosAsync(retorno.usuario.id).Result.Count;
 
             return Ok(retorno);
         }
