@@ -41,7 +41,7 @@ namespace VtrEffectsDados.Data.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-            optionsBuilder.UseSqlServer("Server=tcp:vtreffectshi5.database.windows.net,1433;Initial Catalog=VtrEffects;Persist Security Info=False;User ID=vtradmin;Password=Admin09!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;", b => b.MigrationsAssembly("VtrEffects"));
+            optionsBuilder.UseSqlServer("cnSqlDatabase", b => b.MigrationsAssembly("VtrEffects"));
         }
 
         public override int SaveChanges()

@@ -79,8 +79,8 @@ builder.Services.AddStackExchangeRedisCache(o =>
 {
     o.InstanceName = "instance";
 
-    o.Configuration = "VtrEffects.redis.cache.windows.net:6380,password=j2m3fq1jK5vJ2klcHpgrPhnmmvDYjGUGfAzCaEJ95wQ=,ssl=True,abortConnect=False";
-    //o.Configuration = "localhost:6379";
+   
+    o.Configuration = "localhost:6379";
 
 });
 
